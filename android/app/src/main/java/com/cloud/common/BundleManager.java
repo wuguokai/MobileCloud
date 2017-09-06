@@ -89,7 +89,7 @@ public class BundleManager {
             }
         });
         //String url = String.format("%s/updateBundle?bundle=%s&version=%s",bundleUpdateRequestPojo.appUrl,bundleUpdateRequestPojo.name,bundleUpdateRequestPojo.targetVerson);
-        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.appUrl,1);
+        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.appUrl,2);
         task.execute(url);
     }
     //下载成功后改本地配置文件
