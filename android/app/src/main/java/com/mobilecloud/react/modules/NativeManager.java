@@ -33,6 +33,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
 
     private static final String DURATION_SHORT_KEY = "SHORT";
     private static final String DURATION_LONG_KEY = "LONG";
+    private static Toast toast = null;
 
 
     public NativeManager(ReactApplicationContext reactContext) {
@@ -104,8 +105,15 @@ public class NativeManager extends ReactContextBaseJavaModule {
         BundleManager.getBundleManager().updateBundle(bundleUpdateRequestPojo, this.getCurrentActivity().getApplication(), new HttpProcessCallBack() {
             @Override
             public void progress(float progress) {
-                Log.w("NativeManager", String.format("%f", progress));
-                //Toast.makeText(getReactApplicationContext(), String.format("%f",progress)+"%", Toast.LENGTH_SHORT).show();
+                Log.w("NativeManager", "+++++"+String.format("%f", progress));
+                if(toast == null){
+                    toast = Toast.makeText(getReactApplicationContext(), String.format("%f",progress), Toast.LENGTH_SHORT);
+                }else{
+                    if(progress<1.0){
+                        toast.setText(String.format("%f",progress));
+                    }
+                }
+                toast.show();
             }
 
             @Override
@@ -113,6 +121,11 @@ public class NativeManager extends ReactContextBaseJavaModule {
                 final File file = (File) object;
                 Log.w("NativeManager", String.format("%s", file.getAbsolutePath()));
                 //BundleManager.getBundleManager().loadBundle(getCurrentActivity(),file);
+                if(toast == null){
+                    toast = Toast.makeText(getReactApplicationContext(), String.format("download success"), Toast.LENGTH_SHORT);
+                }else{
+                    toast.setText(String.format("download success"));
+                }
                 callback.invoke("success", file.getAbsolutePath());
             }
 
