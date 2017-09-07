@@ -90,7 +90,7 @@ public class BundleManager {
             }
         });
         //String url = String.format("%s/updateBundle?bundle=%s&version=%s",bundleUpdateRequestPojo.appUrl,bundleUpdateRequestPojo.name,bundleUpdateRequestPojo.targetVerson);
-        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.appUrl,2);
+        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.appUrl,bundleUpdateRequestPojo.bundleId);
         task.execute(url);
     }
     //下载成功后改本地配置文件
@@ -203,7 +203,7 @@ public class BundleManager {
             public void success(Object object) {
                 AppUpdatePojo appUpdatePojo = (AppUpdatePojo)object;
                 if(appUpdatePojo.mainBundleUpdate!=null){
-                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url,appPojo.mainBundle.name,appUpdatePojo.mainBundleUpdate.targetVersion);
+                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url,appPojo.mainBundle.name,appUpdatePojo.mainBundleUpdate.targetVersion, 0L);
                     updateBundle(bundleUpdateRequestPojo, application, new HttpProcessCallBack() {
 
                         @Override
