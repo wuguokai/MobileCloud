@@ -1,17 +1,17 @@
-package com.cloud.react.modules;
+package com.mobilecloud.react.modules;
 
 
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cloud.MainApplication;
-import com.cloud.SecondActivity;
-import com.cloud.common.BundleManager;
-import com.cloud.common.HttpProcessCallBack;
-import com.cloud.pojo.AppPojo;
-import com.cloud.pojo.BundleUpdateRequestPojo;
-import com.cloud.pojo.update.AppUpdatePojo;
+import com.mobilecloud.MainApplication;
+import com.mobilecloud.SecondActivity;
+import com.mobilecloud.common.BundleManager;
+import com.mobilecloud.common.HttpProcessCallBack;
+import com.mobilecloud.pojo.AppPojo;
+import com.mobilecloud.pojo.BundleUpdateRequestPojo;
+import com.mobilecloud.pojo.update.AppUpdatePojo;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;

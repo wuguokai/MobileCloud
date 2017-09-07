@@ -1,4 +1,4 @@
-package com.cloud.pojo.update;
+package com.mobilecloud.pojo.update;
 
 import java.util.HashMap;
 import java.util.Map;

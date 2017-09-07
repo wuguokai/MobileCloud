@@ -1,6 +1,6 @@
-package com.cloud;
+package com.mobilecloud;
 
-import com.cloud.ext.ExtReactActivity;
+import com.mobilecloud.ext.ExtReactActivity;
 
 public class MainActivity extends ExtReactActivity {
 

@@ -1,4 +1,4 @@
-package com.cloud.ext;
+package com.mobilecloud.ext;
 
 import android.app.Activity;
 import android.content.Intent;

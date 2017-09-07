@@ -1,4 +1,4 @@
-package com.cloud;
+package com.mobilecloud;
 
 import android.app.Activity;
 import android.app.Application;
@@ -7,9 +7,9 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.cloud.common.BundleManager;
-import com.cloud.ext.ExtReactApplication;
-import com.cloud.react.modules.NativePackage;
+import com.mobilecloud.common.BundleManager;
+import com.mobilecloud.ext.ExtReactApplication;
+import com.mobilecloud.react.modules.NativePackage;
 
 
 import java.util.Arrays;

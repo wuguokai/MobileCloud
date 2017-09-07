@@ -1,4 +1,4 @@
-package com.cloud.pojo.update;
+package com.mobilecloud.pojo.update;
 
 /**
  * Created by hailor on 2017/6/30.

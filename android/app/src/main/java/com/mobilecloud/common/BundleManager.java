@@ -1,4 +1,4 @@
-package com.cloud.common;
+package com.mobilecloud.common;
 
 import android.app.Activity;
 import android.app.Application;
@@ -9,13 +9,13 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.cloud.MainActivity;
-import com.cloud.MainApplication;
-import com.cloud.ext.ExtReactApplication;
-import com.cloud.pojo.AppPojo;
-import com.cloud.pojo.BundlePojo;
-import com.cloud.pojo.BundleUpdateRequestPojo;
-import com.cloud.pojo.update.AppUpdatePojo;
+import com.mobilecloud.MainActivity;
+import com.mobilecloud.MainApplication;
+import com.mobilecloud.ext.ExtReactApplication;
+import com.mobilecloud.pojo.AppPojo;
+import com.mobilecloud.pojo.BundlePojo;
+import com.mobilecloud.pojo.BundleUpdateRequestPojo;
+import com.mobilecloud.pojo.update.AppUpdatePojo;
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
@@ -57,6 +57,7 @@ public class BundleManager {
     private final static String BUNDLE_CONFIG = "bundle.json";
     private final static String BUNDLE_UPDATE_CONFIG = "bundle.update.json";
     private final static String BUNDLE_EXTENTION = ".android.bundle";
+    private static String bundleVersion = "" ;
     private static BundleManager bundleManager;
     private Gson gson = new Gson();
 
@@ -79,7 +80,7 @@ public class BundleManager {
             @Override
             public void success(Object object) {
                 File file = (File)object;
-                updateBundleSuccess(application,bundleUpdateRequestPojo.name,bundleUpdateRequestPojo.targetVerson,file);
+                updateBundleSuccess(application,bundleUpdateRequestPojo.name,bundleVersion,file);
                 httpProcessCallBack.success(object);
             }
 
@@ -124,6 +125,7 @@ public class BundleManager {
             }
         }
 
+        bundleVersion = "";
         if(appPojoChange){
             writeAppPojo(application,appPojo);
         }
@@ -436,6 +438,10 @@ public class BundleManager {
 //                conection.addRequestProperty("Authorization","Bearer 30fe871d-b8b1-450a-9a1f-c0784a39e33a");
                 //conection.setRequestMethod("POST");
                 conection.connect();
+                Map<String, List<String>> map = conection.getHeaderFields();
+                List<String> contentDis = map.get("Content-Disposition");
+                bundleVersion = contentDis.get(0).substring(contentDis.get(0).indexOf("-")+1,contentDis.get(0).length()-7);
+
                 // getting file length
                 InputStream fileInputStream = conection.getInputStream();
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -522,7 +528,7 @@ public class BundleManager {
         try {
             Field bundleLoaderField = instanceManager.getClass().getDeclaredField("mBundleLoader");
             Field JSMainModuleNameField = instanceManager.getClass().getDeclaredField("mJSMainModuleName");
-            Class<?> jsBundleLoaderClass = Class.forName("com.facebook.react.cxxbridge.JSBundleLoader");
+            Class<?> jsBundleLoaderClass = Class.forName("com.facebook.react.bridge.JSBundleLoader");
             Method createFileLoaderMethod = null;
             String createFileLoaderMethodName = latestJSBundleFile.toLowerCase().startsWith("assets://")
                     ? "createAssetLoader" : "createFileLoader";

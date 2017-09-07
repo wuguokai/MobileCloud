@@ -1,4 +1,4 @@
-package com.cloud.common;
+package com.mobilecloud.common;
 
 /**
  * Created by hailor on 2017/6/29.

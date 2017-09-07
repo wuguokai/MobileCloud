@@ -1,4 +1,4 @@
-package com.cloud.ext;
+package com.mobilecloud.ext;
 
 // Copyright 2004-present Facebook. All Rights Reserved.
 
@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.mobilecloud.MainApplication;
 import com.facebook.common.logging.FLog;
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.ReactActivity;
@@ -122,7 +123,9 @@ public class ExtReactActivityDelegate {
                 getReactNativeHost().getReactInstanceManager(),
                 appKey,
                 getLaunchOptions());
+        Log.w("mReactRootView", "======================"+mReactRootView.toString());
         getPlainActivity().setContentView(mReactRootView);
+
     }
 
     protected void onPause() {
