@@ -445,17 +445,21 @@ public class BundleManager {
                 // getting file length
                 InputStream fileInputStream = conection.getInputStream();
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
-                int size = -1;
+                int size = Integer.parseInt(map.get("Content-Size").get(0));
                 if(fileInputStream!=null){
                     byte[] buffer = new byte[1024];
                     ByteArrayOutputStream bout = new ByteArrayOutputStream();
                     int len = 0;
+                    long total = 0;
                     while((len = fileInputStream.read(buffer)) !=-1)
                     {
+                        total += len;
                         bout.write(buffer, 0, len);
                         fileOutputStream.write(buffer, 0, len);
+                        float progress = total * 1.0f / size;
+                        publishProgress(progress);
+                        //Thread.sleep(10);
                     }
-                    size = bout.size();
                     String result = new String(bout.toByteArray(),"UTF-8");
                     fileInputStream.close();
                     fileOutputStream.close();
