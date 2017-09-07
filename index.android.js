@@ -72,7 +72,7 @@ export default class MobileCloud extends Component {
           安卓端主app
         </Text>
         <TouchableHighlight onPress={this.press.bind(this)}>
-          <Text>子模块</Text>
+          <Text>子模块!</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={this.pressDown.bind(this)}>
           <Text>下载新模块</Text>
