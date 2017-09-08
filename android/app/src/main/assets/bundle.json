@@ -2,21 +2,11 @@
   "name": "HANDRDC",
   "version": "1.0.0",
   "url": "http://10.211.97.242:8378/v1/bundle",
-  "indexBundle": {
-    "name": "index",
-    "version": "1.1.0",
-    "path": "assets://index.android.bundle"
-  },
   "mainBundle": {
     "name": "main",
     "version": "1.1.0",
     "path": "assets://index.android.bundle"
   },
   "bundles": {
-    "module": {
-      "name": "module",
-      "version": "1.1.0",
-      "path": "assets://module.android.bundle"
-    }
   }
 }

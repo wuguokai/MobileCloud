@@ -71,7 +71,7 @@ public class BundleManager {
     //参数，1,bundle名称 2，更新url 3,
 
     public void updateBundle(final BundleUpdateRequestPojo bundleUpdateRequestPojo,final Application application,final HttpProcessCallBack httpProcessCallBack) {
-        UpdateTask task = new UpdateTask(bundleUpdateRequestPojo.name, application, new HttpProcessCallBack() {
+        UpdateTask task = new UpdateTask(bundleUpdateRequestPojo.getName(), application, new HttpProcessCallBack() {
             @Override
             public void progress(float progress) {
                 httpProcessCallBack.progress(progress);
@@ -203,7 +203,7 @@ public class BundleManager {
             public void success(Object object) {
                 AppUpdatePojo appUpdatePojo = (AppUpdatePojo)object;
                 if(appUpdatePojo.mainBundleUpdate!=null){
-                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url,appPojo.mainBundle.name,appUpdatePojo.mainBundleUpdate.targetVersion, 0L);
+                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url,appPojo.mainBundle.name,appUpdatePojo.mainBundleUpdate.targetVersion, 0);
                     updateBundle(bundleUpdateRequestPojo, application, new HttpProcessCallBack() {
 
                         @Override

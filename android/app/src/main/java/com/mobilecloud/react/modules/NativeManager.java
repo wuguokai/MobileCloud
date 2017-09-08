@@ -92,7 +92,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
 
     //下载并打开子模块
     @ReactMethod
-    public void downloadAndOpenBundle(String name, Long bundleId, final Callback callback) {
+    public void downloadAndOpenBundle(String name, int bundleId, final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
         String targetVersion = "0";
@@ -168,7 +168,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void updateMain(Long bundleId, final Callback callback) {
+    public void updateMain(int bundleId, final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
         BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url, appPojo.mainBundle.name, appUpdatePojo.mainBundleUpdate.targetVersion, bundleId);

@@ -22,4 +22,4 @@ export default class Wrapper extends Component {
   }
 }
 
-AppRegistry.registerComponent('Wrapper', () => Wrapper);
+AppRegistry.registerComponent('MobileCloud', () => Wrapper);

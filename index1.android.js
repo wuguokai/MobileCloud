@@ -25,14 +25,14 @@ export default class MobileCloud extends Component {
   //}
 
   press() {
-    this.show("module");
+    this.show("Appmain",1);
   }
 
   pressDown() {
-    this.show("download");
+    this.show("movie",2);
   }
 
-  show(name) {
+  show(name, id) {
     NativeModules.NativeManager.openBundle(name, (type) => {
       let title = ""
       if (type == "update") {
@@ -47,7 +47,7 @@ export default class MobileCloud extends Component {
           {
             text: '是',
             onPress: () => {
-              NativeModules.NativeManager.downloadAndOpenBundle(name, (type, result) => {
+              NativeModules.NativeManager.downloadAndOpenBundle(name,id, (type, result) => {
                 if (type == "success") {
                   ToastAndroid.show(result, ToastAndroid.SHORT);
                 } else {
