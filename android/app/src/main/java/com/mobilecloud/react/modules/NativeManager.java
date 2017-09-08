@@ -105,12 +105,13 @@ public class NativeManager extends ReactContextBaseJavaModule {
         BundleManager.getBundleManager().updateBundle(bundleUpdateRequestPojo, this.getCurrentActivity().getApplication(), new HttpProcessCallBack() {
             @Override
             public void progress(float progress) {
-                Log.w("NativeManager", "+++++"+String.format("%f", progress));
+                Log.w("NativeManager", "+++++"+String.format("%.2f", progress*100));
+                Log.w("NativeManager", "+-+-+"+String.format("%f", progress));
                 if(toast == null){
-                    toast = Toast.makeText(getReactApplicationContext(), String.format("%f",progress), Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(getReactApplicationContext(), String.format("%.2f",progress*100)+'%', Toast.LENGTH_SHORT);
                 }else{
-                    if(progress<1.0){
-                        toast.setText(String.format("%f",progress));
+                    if(progress!=100.000000){
+                        toast.setText(String.format("%.2f",progress*100)+'%');
                     }
                 }
                 toast.show();
