@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class AppUpdatePojo {
     public String name;
-    public String version;
+    public String currentVersion;
     public Boolean updateAble;
     public String url;
     public String targetVersion;

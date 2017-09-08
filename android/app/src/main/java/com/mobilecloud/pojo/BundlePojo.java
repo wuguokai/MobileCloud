@@ -6,6 +6,6 @@ package com.mobilecloud.pojo;
 
 public class BundlePojo {
     public String name;
-    public String version;
+    public String currentVersion;
     public String path;
 }

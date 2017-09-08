@@ -101,7 +101,7 @@ public class BundleManager {
         Boolean appUpdatePojoChange =false;
         if(name.equals(appPojo.mainBundle.name)){
             appUpdatePojo.mainBundleUpdate = null;
-            appPojo.mainBundle.version = version;
+            appPojo.mainBundle.currentVersion = version;
             appPojo.mainBundle.path = bundleFile.getAbsolutePath();
             appPojoChange = true;
             appUpdatePojoChange = true;
@@ -112,12 +112,12 @@ public class BundleManager {
             }
             if(appPojo.bundles.get(name)!=null){
                 BundlePojo bundlePojo = appPojo.bundles.get(name);
-                bundlePojo.version = version;
+                bundlePojo.currentVersion = version;
                 bundlePojo.path = bundleFile.getAbsolutePath();
                 appPojoChange = true;
             }else{
                 BundlePojo bundlePojo = new BundlePojo();
-                bundlePojo.version = version;
+                bundlePojo.currentVersion = version;
                 bundlePojo.name = name;
                 bundlePojo.path = bundleFile.getAbsolutePath();
                 appPojo.bundles.put(name,bundlePojo);
@@ -203,7 +203,7 @@ public class BundleManager {
             public void success(Object object) {
                 AppUpdatePojo appUpdatePojo = (AppUpdatePojo)object;
                 if(appUpdatePojo.mainBundleUpdate!=null){
-                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url,appPojo.mainBundle.name,appUpdatePojo.mainBundleUpdate.targetVersion, 0);
+                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.currentVersion, appPojo.url,appPojo.mainBundle.name,appUpdatePojo.mainBundleUpdate.targetVersion, 0);
                     updateBundle(bundleUpdateRequestPojo, application, new HttpProcessCallBack() {
 
                         @Override

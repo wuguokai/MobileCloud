@@ -100,7 +100,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
             //更新子模块
             targetVersion = appUpdatePojo.bundles.get(name).targetVersion;
         }
-        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url, name, targetVersion, bundleId);
+        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.currentVersion, appPojo.url, name, targetVersion, bundleId);
         //调用updateBundle下载bundle
         BundleManager.getBundleManager().updateBundle(bundleUpdateRequestPojo, this.getCurrentActivity().getApplication(), new HttpProcessCallBack() {
             @Override
@@ -155,7 +155,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
                     WritableMap resultData = new WritableNativeMap();
                     resultData.putString("name", appPojo.mainBundle.name);
                     resultData.putString("path", appPojo.mainBundle.path);
-                    resultData.putString("version", appPojo.mainBundle.version);
+                    resultData.putString("version", appPojo.mainBundle.currentVersion);
                     callback.invoke(resultData, appUpdatePojoResult.mainBundleUpdate.targetVersion);
                 }
             }
@@ -171,7 +171,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
     public void updateMain(int bundleId, final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
-        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url, appPojo.mainBundle.name, appUpdatePojo.mainBundleUpdate.targetVersion, bundleId);
+        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.currentVersion, appPojo.url, appPojo.mainBundle.name, appUpdatePojo.mainBundleUpdate.targetVersion, bundleId);
         BundleManager.getBundleManager().updateBundle(bundleUpdateRequestPojo, this.getCurrentActivity().getApplication(), new HttpProcessCallBack() {
             @Override
             public void progress(float progress) {
