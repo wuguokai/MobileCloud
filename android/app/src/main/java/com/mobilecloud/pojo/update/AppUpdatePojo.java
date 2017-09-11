@@ -15,7 +15,7 @@ public class AppUpdatePojo {
     private String url;
     private String targetVersion;
     private BundleUpdatePojo mainBundleUpdate;
-    private Map<String,BundleUpdatePojo> bundles= new HashMap<String,BundleUpdatePojo>();
+    private Map<String,BundleUpdatePojo> bundlesUpdate= new HashMap<String,BundleUpdatePojo>();
 
     public Integer getId() {
         return id;
@@ -73,13 +73,11 @@ public class AppUpdatePojo {
         this.mainBundleUpdate = mainBundleUpdate;
     }
 
-    public Map<String, BundleUpdatePojo> getBundles() {
-        return bundles;
+    public Map<String, BundleUpdatePojo> getBundlesUpdate() {
+        return bundlesUpdate;
     }
 
-    public void setBundles(Map<String, BundleUpdatePojo> bundles) {
-        this.bundles = bundles;
+    public void setBundlesUpdate(Map<String, BundleUpdatePojo> bundlesUpdate) {
+        this.bundlesUpdate = bundlesUpdate;
     }
-
-
 }

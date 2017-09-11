@@ -108,8 +108,8 @@ public class BundleManager {
             appPojoChange = true;
             appUpdatePojoChange = true;
         }else {
-            if(appUpdatePojo.getBundles().get(name)!=null){
-                appUpdatePojo.getBundles().remove(name);
+            if(appUpdatePojo.getBundlesUpdate().get(name)!=null){
+                appUpdatePojo.getBundlesUpdate().remove(name);
                 appUpdatePojoChange = true;
             }
             if(appPojo.getBundles().get(name)!=null){
@@ -205,7 +205,8 @@ public class BundleManager {
 
             @Override
             public void success(Object object) {
-                AppUpdatePojo appUpdatePojo = (AppUpdatePojo)object;
+                //初始化的时候如果主模块有更新就下载
+                /*AppUpdatePojo appUpdatePojo = (AppUpdatePojo)object;
                 if(appUpdatePojo.getMainBundleUpdate()!=null){
                     BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.getId(), appPojo.getName(), appPojo.getCurrentVersion(), appPojo.getUrl(),appPojo.getMainBundle().getName(),appUpdatePojo.getMainBundleUpdate().getTargetVersion(), 0);
                     updateBundle(bundleUpdateRequestPojo, application, new HttpProcessCallBack() {
@@ -226,7 +227,7 @@ public class BundleManager {
 
                         }
                     });
-                }
+                }*/
             }
 
             @Override

@@ -7,7 +7,7 @@ package com.mobilecloud.pojo;
 public class BundlePojo {
     private Integer id;
     private String name;
-    private String CurrentVersion;
+    private String currentVersion;
     private String path;
 
     public Integer getId() {
@@ -27,11 +27,11 @@ public class BundlePojo {
     }
 
     public String getCurrentVersion() {
-        return CurrentVersion;
+        return currentVersion;
     }
 
     public void setCurrentVersion(String currentVersion) {
-        CurrentVersion = currentVersion;
+        this.currentVersion = currentVersion;
     }
 
     public String getPath() {
@@ -47,7 +47,7 @@ public class BundlePojo {
         return "BundlePojo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", CurrentVersion='" + CurrentVersion + '\'' +
+                ", currentVersion='" + currentVersion + '\'' +
                 ", path='" + path + '\'' +
                 '}';
     }

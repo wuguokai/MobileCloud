@@ -53,7 +53,7 @@ export default class ThirdPage extends Component {
     mainUpdate () {
         NativeModules.NativeManager.checkMainUpdateAble( (back) => {
             if( back != null ){
-                Alert.alert("主模块有更新"+back);
+                Alert.alert(back);
             }
         });
     }

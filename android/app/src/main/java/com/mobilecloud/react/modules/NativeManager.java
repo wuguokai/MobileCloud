@@ -62,7 +62,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
         if (appPojo.getBundles().get(name) != null) {
             if(appUpdatePojo == null){
                 callback.invoke("netError");
-            }else if (appUpdatePojo.getBundles().get(name) != null) {
+            }else if (appUpdatePojo.getBundlesUpdate().get(name) != null) {
                 //提示更新子模块
                 callback.invoke("update");
             } else {
@@ -91,9 +91,9 @@ public class NativeManager extends ReactContextBaseJavaModule {
         String targetVersion = "0";
         if(appUpdatePojo == null){
             callback.invoke("netError");
-        }else if (appUpdatePojo.getBundles().get(name) != null) {
+        }else if (appUpdatePojo.getBundlesUpdate().get(name) != null) {
             //更新子模块
-            targetVersion = appUpdatePojo.getBundles().get(name).getTargetVersion();
+            targetVersion = appUpdatePojo.getBundlesUpdate().get(name).getTargetVersion();
         }
         BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.getId(), appPojo.getName(), appPojo.getCurrentVersion(), appPojo.getUrl(), name, targetVersion, bundleId);
         //调用updateBundle下载bundle
@@ -146,8 +146,11 @@ public class NativeManager extends ReactContextBaseJavaModule {
     @ReactMethod
     public void checkMainUpdateAble(final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
-        //final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
-        BundleManager.getBundleManager().checkBundleConfigUpdate(this.getCurrentActivity().getApplication(), appPojo, new HttpProcessCallBack() {
+        final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
+        if (appUpdatePojo.getMainBundleUpdate() != null){
+            callback.invoke("主模块有更新,本地版本："+appPojo.getMainBundle().getCurrentVersion()+",远程版本："+appUpdatePojo.getMainBundleUpdate().getTargetVersion()+"。");
+        }
+        /*BundleManager.getBundleManager().checkBundleConfigUpdate(this.getCurrentActivity().getApplication(), appPojo, new HttpProcessCallBack() {
 
             @Override
             public void progress(float progress) {
@@ -171,7 +174,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
             public void failure(Object object) {
 
             }
-        });
+        });*/
     }
 
     @ReactMethod
