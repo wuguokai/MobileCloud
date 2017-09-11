@@ -107,7 +107,7 @@ public class ExtReactActivityDelegate {
                 ((Activity) getContext()).startActivityForResult(serviceIntent, REQUEST_OVERLAY_PERMISSION_CODE);
             }
         }
-
+        Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onCreat");
         if (mMainComponentName != null && !needsOverlayPermission) {
             loadApp(mMainComponentName);
         }
@@ -121,22 +121,22 @@ public class ExtReactActivityDelegate {
         mReactRootView = createRootView();
         mReactRootView.startReactApplication(
                 getReactNativeHost().getReactInstanceManager(),
+//                ReactInstanceManager.builder().build(),
                 appKey,
                 getLaunchOptions());
-        Log.w("mReactRootView", "======================"+mReactRootView.toString());
         getPlainActivity().setContentView(mReactRootView);
 
     }
 
     protected void onPause() {
-        Log.w("ExtReactActivityDelegat","onPause");
+        Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onPause");
         if (getReactNativeHost().hasInstance()) {
             getReactNativeHost().getReactInstanceManager().onHostPause(getPlainActivity());
         }
     }
 
     protected void onResume() {
-        Log.w("ExtReactActivityDelegat","onResume");
+        Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onResume");
         if (getReactNativeHost().hasInstance()) {
             getReactNativeHost().getReactInstanceManager().onHostResume(
                     getPlainActivity(),
@@ -150,7 +150,7 @@ public class ExtReactActivityDelegate {
     }
 
     protected void onDestroy() {
-        Log.w("ExtReactActivityDelegat","onDestroy");
+        Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onDestroy");
         if (mReactRootView != null) {
             mReactRootView.unmountReactApplication();
             mReactRootView = null;
@@ -194,6 +194,7 @@ public class ExtReactActivityDelegate {
     }
 
     public boolean onBackPressed() {
+        Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onBackPressed");
         if (getReactNativeHost().hasInstance()) {
             getReactNativeHost().getReactInstanceManager().onBackPressed();
             return true;

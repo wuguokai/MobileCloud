@@ -54,35 +54,28 @@ public class NativeManager extends ReactContextBaseJavaModule {
     }
 
 
-    @ReactMethod
-    public void show(String message, int duration) {
-        ReactApplicationContext context = getReactApplicationContext();
-        Intent intent = new Intent(context, SecondActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        Toast.makeText(getReactApplicationContext(), message, duration).show();
-    }
-
     //点击子模块
     @ReactMethod
-    public void openBundle(String name, Callback callback) {
+    public void openBundle(String name, /*Integer id,*/ Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
-        if (appPojo.bundles.get(name) != null) {
-            if (appUpdatePojo.bundles.get(name) != null) {
+        if (appPojo.getBundles().get(name) != null) {
+            if(appUpdatePojo == null){
+                callback.invoke("netError");
+            }else if (appUpdatePojo.getBundles().get(name) != null) {
                 //提示更新子模块
                 callback.invoke("update");
             } else {
                 //cache的子模块是最新版本，直接打开
-                ((MainApplication) getCurrentActivity().getApplication()).setActivity(SecondActivity.class.getName(), appPojo.bundles.get(name).path);
+                ((MainApplication) getCurrentActivity().getApplication()).setActivity(SecondActivity.class.getName(), appPojo.getBundles().get(name).getPath());
                 SecondActivity storedActivity = (SecondActivity) ((MainApplication) getCurrentActivity().getApplication()).getActivity(SecondActivity.class.getName());
+                if (storedActivity != null) {
+                    BundleManager.getBundleManager().loadBundle(storedActivity, new File(appPojo.getBundles().get(name).getPath()));
+                }
                 ReactApplicationContext context = getReactApplicationContext();
                 Intent intent = new Intent(context, SecondActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-                if (storedActivity != null) {
-                    BundleManager.getBundleManager().loadBundle(storedActivity, new File(appPojo.bundles.get(name).path));
-                }
             }
         } else {
             //提示下载子模块
@@ -92,15 +85,17 @@ public class NativeManager extends ReactContextBaseJavaModule {
 
     //下载并打开子模块
     @ReactMethod
-    public void downloadAndOpenBundle(String name, int bundleId, final Callback callback) {
+    public void downloadAndOpenBundle(String name, Integer bundleId, final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
         String targetVersion = "0";
-        if (appUpdatePojo.bundles.get(name) != null) {
+        if(appUpdatePojo == null){
+            callback.invoke("netError");
+        }else if (appUpdatePojo.getBundles().get(name) != null) {
             //更新子模块
-            targetVersion = appUpdatePojo.bundles.get(name).targetVersion;
+            targetVersion = appUpdatePojo.getBundles().get(name).getTargetVersion();
         }
-        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url, name, targetVersion, bundleId);
+        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.getId(), appPojo.getName(), appPojo.getCurrentVersion(), appPojo.getUrl(), name, targetVersion, bundleId);
         //调用updateBundle下载bundle
         BundleManager.getBundleManager().updateBundle(bundleUpdateRequestPojo, this.getCurrentActivity().getApplication(), new HttpProcessCallBack() {
             @Override
@@ -137,6 +132,17 @@ public class NativeManager extends ReactContextBaseJavaModule {
     }
 
 
+
+    /*@ReactMethod
+    public void show(String message, int duration) {
+        ReactApplicationContext context = getReactApplicationContext();
+        Intent intent = new Intent(context, SecondActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        Toast.makeText(getReactApplicationContext(), message, duration).show();
+    }*/
+
+
     @ReactMethod
     public void checkMainUpdateAble(final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
@@ -151,12 +157,13 @@ public class NativeManager extends ReactContextBaseJavaModule {
             @Override
             public void success(Object object) {
                 AppUpdatePojo appUpdatePojoResult = (AppUpdatePojo) object;
-                if (appUpdatePojoResult.mainBundleUpdate != null) {
+                if (appUpdatePojoResult.getMainBundleUpdate() != null) {
+                    Log.w("MainUpdate", "=============主模块有更新");
                     WritableMap resultData = new WritableNativeMap();
-                    resultData.putString("name", appPojo.mainBundle.name);
-                    resultData.putString("path", appPojo.mainBundle.path);
-                    resultData.putString("version", appPojo.mainBundle.version);
-                    callback.invoke(resultData, appUpdatePojoResult.mainBundleUpdate.targetVersion);
+                    resultData.putString("name", appPojo.getMainBundle().getName());
+                    resultData.putString("path", appPojo.getMainBundle().getPath());
+                    resultData.putString("version", appPojo.getMainBundle().getCurrentVersion());
+                    callback.invoke(resultData, appUpdatePojoResult.getMainBundleUpdate().getTargetVersion());
                 }
             }
 
@@ -171,7 +178,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
     public void updateMain(int bundleId, final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
-        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url, appPojo.mainBundle.name, appUpdatePojo.mainBundleUpdate.targetVersion, bundleId);
+        BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.getId(), appPojo.getName(), appPojo.getCurrentVersion(), appPojo.getUrl(), appPojo.getMainBundle().getName(), appUpdatePojo.getMainBundleUpdate().getTargetVersion(), bundleId);
         BundleManager.getBundleManager().updateBundle(bundleUpdateRequestPojo, this.getCurrentActivity().getApplication(), new HttpProcessCallBack() {
             @Override
             public void progress(float progress) {

@@ -4,7 +4,7 @@ import { AppRegistry, Text } from 'react-native';
 export default class Download extends Component {
   render() {
     return (
-      <Text>movie！</Text>
+      <Text>girl更新之后的！</Text>
     );
   }
 }

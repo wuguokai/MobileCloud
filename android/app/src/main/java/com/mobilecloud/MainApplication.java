@@ -30,6 +30,7 @@ public class MainApplication extends Application implements ExtReactApplication/
     if(activityHashMap.get(activityKey)==null){
       activityHashMap.put(activityKey,reactActivity);
     }
+//    mReactNativeHostMap.remove(activityKey);
     ReactNativeHost reactNativeHost = mReactNativeHostMap.get(activityKey);
     if (reactNativeHost != null) {
       return reactNativeHost;
@@ -101,6 +102,8 @@ public class MainApplication extends Application implements ExtReactApplication/
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
   }
+
+
 
   //已经重写，不需要这块代码
    /* private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {

@@ -14,10 +14,11 @@ import {
     TouchableWithoutFeedback,
     RefreshControl,
     Dimensions,
-    ToastAndroid
+    ToastAndroid,
+    TouchableHighlight
 } from 'react-native';
 
-var REQUEST_URL = 'http://10.211.97.242:8378/v1/bundle/getData';
+var REQUEST_URL = 'http://10.211.97.242:8378/v1/bundle/getData/1';
 var width = Dimensions.get('window').width;
 export default class ThirdPage extends Component {
 
@@ -38,9 +39,7 @@ export default class ThirdPage extends Component {
     }
 
     fetchData() {
-        fetch(REQUEST_URL, {
-            method: "POST",
-        })
+        fetch(REQUEST_URL)
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({
@@ -51,6 +50,14 @@ export default class ThirdPage extends Component {
             });
     }
 
+    mainUpdate () {
+        NativeModules.NativeManager.checkMainUpdateAble( (back) => {
+            if( back != null ){
+                Alert.alert("主模块有更新"+back);
+            }
+        });
+    }
+
     render() {
         if (!this.state.loaded) {
             return this.renderLoadingView();
@@ -58,6 +65,9 @@ export default class ThirdPage extends Component {
 
         return (
             <View>
+                <TouchableHighlight onPress={this.mainUpdate.bind(this)}>
+                    <Text>判断主模块更新</Text>
+                </TouchableHighlight>
                 <Text style={styles.title}>可用模块</Text>
                 <ListView
                     dataSource={this.state.dataSource}
@@ -85,32 +95,38 @@ export default class ThirdPage extends Component {
     show(name, id) {
         NativeModules.NativeManager.openBundle(name, (type) => {
             let title = ""
-            if (type == "update") {
-                title = "发现新版本,是否升级?"
-            } else {
-                title = "未安装应用，是否安装？"
-            }
-            Alert.alert(
-                title,
-                title,
-                [
-                    {
-                        text: '是',
-                        onPress: () => {
-                            NativeModules.NativeManager.downloadAndOpenBundle(name, id, (type, result) => {
-                                if (type == "success") {
-                                    //ToastAndroid.show(result, ToastAndroid.SHORT);
-                                } else {
-                                    ToastAndroid.show(result, ToastAndroid.SHORT);
-                                }
-                            });
+            if (type == "netError") {
+                Alert.alert("网络或服务器出错，请重启软件再尝试！");
+            }else{
+                if (type == "update") {
+                    title = "发现新版本,是否升级?"
+                } else {
+                    title = "未安装应用，是否安装？"
+                }
+                Alert.alert(
+                    title,
+                    title,
+                    [
+                        {
+                            text: '是',
+                            onPress: () => {
+                                NativeModules.NativeManager.downloadAndOpenBundle(name, id, (type, result) => {
+                                    if (type == "netError") {
+                                        Alert.alert("网络或服务器出错，请重启软件再尝试！");
+                                    } else if (type == "success") {
+                                        //ToastAndroid.show(result, ToastAndroid.SHORT);
+                                    } else {
+                                        ToastAndroid.show(result, ToastAndroid.SHORT);
+                                    }
+                                });
+                            }
+                        },
+                        {
+                            text: '否'
                         }
-                    },
-                    {
-                        text: '否'
-                    }
-                ]
-            );
+                    ]
+                );
+            }
         });
     }
 

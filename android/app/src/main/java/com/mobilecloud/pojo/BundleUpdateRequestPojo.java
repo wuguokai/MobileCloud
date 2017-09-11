@@ -5,12 +5,21 @@ package com.mobilecloud.pojo;
  */
 
 public class BundleUpdateRequestPojo {
-    public String appName;
-    public String appVersion;
-    public String appUrl;
-    public String name;
-    public String targetVerson;
-    public int bundleId;
+    private Integer appId;//app的id
+    private String appName;
+    private String appVersion;
+    private String appUrl;
+    private String name;
+    private String targetVerson;
+    private Integer bundleId;
+
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
+    }
 
     public String getAppName() {
         return appName;
@@ -52,20 +61,34 @@ public class BundleUpdateRequestPojo {
         this.targetVerson = targetVerson;
     }
 
-    public int getBundleId() {
+    public Integer getBundleId() {
         return bundleId;
     }
 
-    public void setBundleId(int bundleId) {
+    public void setBundleId(Integer bundleId) {
         this.bundleId = bundleId;
     }
 
-    public BundleUpdateRequestPojo(String appName, String appVersion, String appUrl, String name, String targetVerson, int bundleId) {
+    public BundleUpdateRequestPojo(Integer appId, String appName, String appVersion, String appUrl, String name, String targetVerson, int bundleId) {
+        this.appId = appId;
         this.appName = appName;
         this.appVersion = appVersion;
         this.appUrl = appUrl;
         this.name = name;
         this.targetVerson = targetVerson;
         this.bundleId = bundleId;
+    }
+
+    @Override
+    public String toString() {
+        return "BundleUpdateRequestPojo{" +
+                "appId=" + appId +
+                ", appName='" + appName + '\'' +
+                ", appVersion='" + appVersion + '\'' +
+                ", appUrl='" + appUrl + '\'' +
+                ", name='" + name + '\'' +
+                ", targetVerson='" + targetVerson + '\'' +
+                ", bundleId=" + bundleId +
+                '}';
     }
 }

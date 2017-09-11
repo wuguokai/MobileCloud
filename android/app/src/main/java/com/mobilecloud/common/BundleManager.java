@@ -37,6 +37,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +81,7 @@ public class BundleManager {
             @Override
             public void success(Object object) {
                 File file = (File)object;
-                updateBundleSuccess(application,bundleUpdateRequestPojo.name,bundleVersion,file);
+                updateBundleSuccess(application, bundleUpdateRequestPojo.getBundleId(),bundleUpdateRequestPojo.getName(),bundleVersion,file);
                 httpProcessCallBack.success(object);
             }
 
@@ -90,37 +91,40 @@ public class BundleManager {
             }
         });
         //String url = String.format("%s/updateBundle?bundle=%s&version=%s",bundleUpdateRequestPojo.appUrl,bundleUpdateRequestPojo.name,bundleUpdateRequestPojo.targetVerson);
-        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.appUrl,bundleUpdateRequestPojo.bundleId);
+        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.getAppUrl(),bundleUpdateRequestPojo.getBundleId());
         task.execute(url);
     }
     //下载成功后改本地配置文件
-    public synchronized void updateBundleSuccess(Application application,String name,String version,File bundleFile){
+    public synchronized void updateBundleSuccess(Application application, Integer bundleId, String name,String version,File bundleFile){
         AppPojo appPojo = getAppPojo(application);
         AppUpdatePojo appUpdatePojo = getAppUpdatePojo(application);
         Boolean appPojoChange = false;
         Boolean appUpdatePojoChange =false;
-        if(name.equals(appPojo.mainBundle.name)){
-            appUpdatePojo.mainBundleUpdate = null;
-            appPojo.mainBundle.version = version;
-            appPojo.mainBundle.path = bundleFile.getAbsolutePath();
+        if(name.equals(appPojo.getMainBundle().getName())){
+            appUpdatePojo.setMainBundleUpdate(null);
+            appPojo.getMainBundle().setId(bundleId);
+            appPojo.getMainBundle().setCurrentVersion(version);
+            appPojo.getMainBundle().setPath(bundleFile.getAbsolutePath());
             appPojoChange = true;
             appUpdatePojoChange = true;
         }else {
-            if(appUpdatePojo.bundles.get(name)!=null){
-                appUpdatePojo.bundles.remove(name);
+            if(appUpdatePojo.getBundles().get(name)!=null){
+                appUpdatePojo.getBundles().remove(name);
                 appUpdatePojoChange = true;
             }
-            if(appPojo.bundles.get(name)!=null){
-                BundlePojo bundlePojo = appPojo.bundles.get(name);
-                bundlePojo.version = version;
-                bundlePojo.path = bundleFile.getAbsolutePath();
+            if(appPojo.getBundles().get(name)!=null){
+                BundlePojo bundlePojo = appPojo.getBundles().get(name);
+                bundlePojo.setId(bundleId);
+                bundlePojo.setCurrentVersion(version);
+                bundlePojo.setPath(bundleFile.getAbsolutePath());
                 appPojoChange = true;
             }else{
                 BundlePojo bundlePojo = new BundlePojo();
-                bundlePojo.version = version;
-                bundlePojo.name = name;
-                bundlePojo.path = bundleFile.getAbsolutePath();
-                appPojo.bundles.put(name,bundlePojo);
+                bundlePojo.setId(bundleId);
+                bundlePojo.setCurrentVersion(version);
+                bundlePojo.setName(name);
+                bundlePojo.setPath(bundleFile.getAbsolutePath());
+                appPojo.getBundles().put(name,bundlePojo);
                 appPojoChange = true;
             }
         }
@@ -202,8 +206,8 @@ public class BundleManager {
             @Override
             public void success(Object object) {
                 AppUpdatePojo appUpdatePojo = (AppUpdatePojo)object;
-                if(appUpdatePojo.mainBundleUpdate!=null){
-                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.name, appPojo.version, appPojo.url,appPojo.mainBundle.name,appUpdatePojo.mainBundleUpdate.targetVersion, 0);
+                if(appUpdatePojo.getMainBundleUpdate()!=null){
+                    BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.getId(), appPojo.getName(), appPojo.getCurrentVersion(), appPojo.getUrl(),appPojo.getMainBundle().getName(),appUpdatePojo.getMainBundleUpdate().getTargetVersion(), 0);
                     updateBundle(bundleUpdateRequestPojo, application, new HttpProcessCallBack() {
 
                         @Override
@@ -230,7 +234,7 @@ public class BundleManager {
 
             }
         });
-        return appPojo.mainBundle.path;
+        return appPojo.getMainBundle().getPath();
     }
 
     //第一次启动，同步配置文件与bundle文件
@@ -246,12 +250,12 @@ public class BundleManager {
             //BufferedReader br = new BufferedReader(new FileReader(application.getAssets().open(BUNDLE_CONFIG)));
             BufferedReader br = new BufferedReader(new InputStreamReader(application.getAssets().open(BUNDLE_CONFIG), "UTF-8"));
             AppPojo appPojo = gson.fromJson(br, AppPojo.class);
-            Assertions.assertNotNull(appPojo.mainBundle);
+            Assertions.assertNotNull(appPojo.getMainBundle());
             //复制index.android.bundle到手机路径下
-            appPojo.mainBundle.path = copyAssetsBundle(application, appPojo.mainBundle.path);
+            appPojo.getMainBundle().setPath(copyAssetsBundle(application, appPojo.getMainBundle().getPath()));
             //复制bundle.json到手机路径下
-            for (Map.Entry<String, BundlePojo> bundleConfig : appPojo.bundles.entrySet()) {
-                bundleConfig.getValue().path = copyAssetsBundle(application, bundleConfig.getValue().path);
+            for (Map.Entry<String, BundlePojo> bundleConfig : appPojo.getBundles().entrySet()) {
+                bundleConfig.getValue().setPath(copyAssetsBundle(application, bundleConfig.getValue().getPath()));
             }
             FileWriter writer = new FileWriter(file);
             writer.write(gson.toJson(appPojo));
@@ -292,6 +296,7 @@ public class BundleManager {
         return null;
     }
 
+    //判断模块是否需要更新
     public void checkBundleConfigUpdate(final Application application, AppPojo appPojo,final HttpProcessCallBack httpProcessCallBack) {
         Assertions.assertNotNull(appPojo);
         Callback callback = new Callback() {
@@ -320,7 +325,7 @@ public class BundleManager {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(jsonType, bundleConfig);
         Request request = new Request.Builder()
-                .url(appPojo.url + "/checkBundle")
+                .url(appPojo.getUrl() + "/checkBundle")
 //                .addHeader("Authorization","Bearer 30fe871d-b8b1-450a-9a1f-c0784a39e33a")
                 .post(body)
                 .build();
