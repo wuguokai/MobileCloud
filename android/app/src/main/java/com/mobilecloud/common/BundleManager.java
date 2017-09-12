@@ -253,10 +253,10 @@ public class BundleManager {
             AppPojo appPojo = gson.fromJson(br, AppPojo.class);
             Assertions.assertNotNull(appPojo.getMainBundle());
             //复制index.android.bundle到手机路径下
-            appPojo.getMainBundle().setPath(copyAssetsBundle(application, appPojo.getMainBundle().getPath()));
+            appPojo.getMainBundle().setPath(copyAssetsBundle(application,appPojo.getMainBundle().getName(), appPojo.getMainBundle().getPath()));
             //复制bundle.json到手机路径下
             for (Map.Entry<String, BundlePojo> bundleConfig : appPojo.getBundles().entrySet()) {
-                bundleConfig.getValue().setPath(copyAssetsBundle(application, bundleConfig.getValue().getPath()));
+                bundleConfig.getValue().setPath(copyAssetsBundle(application, bundleConfig.getValue().getName(), bundleConfig.getValue().getPath()));
             }
             FileWriter writer = new FileWriter(file);
             writer.write(gson.toJson(appPojo));
@@ -348,9 +348,16 @@ public class BundleManager {
 
 
     //复制文件到手机路径path下
-    private String copyAssetsBundle(Application application, String path) {
+    private String copyAssetsBundle(Application application, String name, String path) {
         String fileName = path.replaceAll("assets://", "");
-        File file = new File(getDiskCacheDir(application), fileName);
+        File file;
+        if(name.equals("main")){
+            file = new File(getDiskCacheDir(application), fileName);
+        }else{
+            File fileMkdir = new File(getDiskCacheDir(application)+"/"+name);
+            fileMkdir.mkdir();
+            file = new File(fileMkdir,fileName);
+        }
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
         try {
@@ -431,7 +438,9 @@ public class BundleManager {
         @Nullable
         private File downloadBundle(String remoteUrl) {
             //删除以前的文件
-            File file = new File(getDiskCacheDir(), bundleName+".NEW"+BUNDLE_EXTENTION);
+            File fileMkdir = new File(getDiskCacheDir()+"/"+bundleName);
+            fileMkdir.mkdir();
+            File file = new File(fileMkdir, bundleName+".NEW"+BUNDLE_EXTENTION);
             if (file != null && file.length() > 0) {
                 file.delete();
             }
@@ -488,7 +497,7 @@ public class BundleManager {
                 // }
 
                 //删除以前的文件
-                File lastFile = new File(getDiskCacheDir(), bundleName+BUNDLE_EXTENTION);
+                File lastFile = new File(fileMkdir, bundleName+BUNDLE_EXTENTION);
                 if (lastFile != null && lastFile.length() > 0) {
                     lastFile.delete();
                 }

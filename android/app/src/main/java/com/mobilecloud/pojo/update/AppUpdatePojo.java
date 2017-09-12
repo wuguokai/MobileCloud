@@ -15,7 +15,7 @@ public class AppUpdatePojo {
     private String url;
     private String targetVersion;
     private BundleUpdatePojo mainBundleUpdate;
-    private Map<String,BundleUpdatePojo> bundlesUpdate= new HashMap<String,BundleUpdatePojo>();
+    private Map<String, BundleUpdatePojo> bundlesUpdate = new HashMap<String, BundleUpdatePojo>();
 
     public Integer getId() {
         return id;
