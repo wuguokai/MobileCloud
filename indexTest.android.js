@@ -5,14 +5,17 @@ import React, {
 import {
     AppRegistry,
     View,
+    Text
 } from 'react-native';
 
 export default class IndexTest extends Component {
   render() {
     return (
-      <view>
+      <View>
+          <Text>
           新的主模块!
-      </view>
+          </Text>
+      </View>
     )
   }
 }
