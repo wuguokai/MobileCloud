@@ -37,9 +37,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -96,7 +99,7 @@ public class BundleManager {
     }
 
     //下载成功后改本地配置文件
-    public synchronized void updateBundleSuccess(Application application, Integer bundleId, String name,String version,File bundleFile){
+    public synchronized void updateBundleSuccess(Application application, Integer bundleId, String name, String version, File bundleFile){
         AppPojo appPojo = getAppPojo(application);
         AppUpdatePojo appUpdatePojo = getAppUpdatePojo(application);
         Boolean appPojoChange = false;
@@ -441,7 +444,7 @@ public class BundleManager {
             //删除以前的文件
             File fileMkdir = new File(getDiskCacheDir()+"/"+bundleName);
             fileMkdir.mkdir();
-            File file = new File(fileMkdir, bundleName+".NEW"+BUNDLE_EXTENTION);
+            File file = new File(fileMkdir, bundleName+".NEW.android.zip");
             if (file != null && file.length() > 0) {
                 file.delete();
             }
@@ -450,13 +453,11 @@ public class BundleManager {
             try {
                 URL url = new URL(remoteUrl);
                 HttpURLConnection conection = (HttpURLConnection) url.openConnection();
-                //conection.setRequestProperty("Accept-Encoding", "chunked");
-//                conection.addRequestProperty("Authorization","Bearer 30fe871d-b8b1-450a-9a1f-c0784a39e33a");
-                //conection.setRequestMethod("POST");
+
                 conection.connect();
                 Map<String, List<String>> map = conection.getHeaderFields();
                 List<String> contentDis = map.get("Content-Disposition");
-                bundleVersion = contentDis.get(0).substring(contentDis.get(0).indexOf("-")+1,contentDis.get(0).length()-7);
+                bundleVersion = contentDis.get(0).substring(contentDis.get(0).indexOf("-")+1,contentDis.get(0).length()-4);
 
                 // getting file length
                 InputStream fileInputStream = conection.getInputStream();
@@ -481,29 +482,15 @@ public class BundleManager {
                     fileOutputStream.close();
                 }
 
-                //int size = conection.getContentLength();
-
-                // input stream to read file - with 8k buffer
-                // bis = new BufferedInputStream(conection.getInputStream(), 8192*10);
-                // bos = new BufferedOutputStream(new FileOutputStream(file));
-                // int len = -1;
-                // long total = 0;
-                // byte[] buffer = new byte[100];
-                // while ((len = bis.read(buffer)) != -1) {
-                //     total += len;
-                //     bos.write(buffer, 0, len);
-                //     bos.flush();
-                //     float progress = total * 1.0f / size;
-                //     publishProgress(progress);
-                // }
-
                 //删除以前的文件
-                File lastFile = new File(fileMkdir, bundleName+BUNDLE_EXTENTION);
+                File lastFile = new File(fileMkdir, bundleName+".android.zip");
                 if (lastFile != null && lastFile.length() > 0) {
                     lastFile.delete();
                 }
                 file.renameTo(lastFile);
-                return lastFile;
+                unZipFiles(lastFile,"");
+                File returnFile = new File(fileMkdir,bundleName+BUNDLE_EXTENTION);
+                return returnFile;
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -520,6 +507,48 @@ public class BundleManager {
             }
             return null;
         }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void unZipFiles(File zipFile, String descDir) throws IOException {
+
+        ZipFile zip = new ZipFile(zipFile);//解决中文文件夹乱码
+        String name = zip.getName().substring(zip.getName().lastIndexOf('\\')+1, zip.getName().lastIndexOf('/'));
+
+        File pathFile = new File(descDir+name);
+        if (!pathFile.exists()) {
+            pathFile.mkdirs();
+        }
+
+        for (Enumeration<? extends ZipEntry> entries = zip.entries(); entries.hasMoreElements();) {
+            ZipEntry entry = (ZipEntry) entries.nextElement();
+            String zipEntryName = entry.getName();
+            InputStream in = zip.getInputStream(entry);
+            String outPath = (descDir + name +"/"+ zipEntryName).replaceAll("\\*", "/");
+
+            // 判断路径是否存在,不存在则创建文件路径
+            File file = new File(outPath.substring(0, outPath.lastIndexOf('/')));
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            // 判断文件全路径是否为文件夹,如果是上面已经上传,不需要解压
+            if (new File(outPath).isDirectory()) {
+                continue;
+            }
+            // 输出文件路径信息
+//          System.out.println(outPath);
+
+            FileOutputStream out = new FileOutputStream(outPath);
+            byte[] buf1 = new byte[1024];
+            int len;
+            while ((len = in.read(buf1)) > 0) {
+                out.write(buf1, 0, len);
+            }
+            in.close();
+            out.close();
+        }
+        System.out.println("******************解压完毕********************");
+        return;
     }
 
     private void loadBundleLegacy(final Activity currentActivity) {
