@@ -354,14 +354,11 @@ public class BundleManager {
     //复制文件到手机路径path下
     private String copyAssetsBundle(Application application, String name, String path) {
         String fileName = path.replaceAll("assets://", "");
-        File file;
-        if(name.equals("main")){
-            file = new File(getDiskCacheDir(application), fileName);
-        }else{
-            File fileMkdir = new File(getDiskCacheDir(application)+"/"+name);
-            fileMkdir.mkdir();
-            file = new File(fileMkdir,fileName);
-        }
+
+        File fileMkdir = new File(getDiskCacheDir(application)+"/"+name);
+        fileMkdir.mkdir();
+        File file = new File(fileMkdir,fileName);
+
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
         try {
@@ -373,7 +370,9 @@ public class BundleManager {
                 bos.write(buffer, 0, len);
                 bos.flush();
             }
-            return file.getAbsolutePath();
+            unZipFiles(file, "");
+            File returnFile = new File(fileMkdir,name+BUNDLE_EXTENTION);
+            return returnFile.getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
