@@ -127,6 +127,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
 
             @Override
             public void failure(Object object) {
+                callback.invoke("failed", "downLoad failed!");
                 Log.w("NativeManager", ((Exception) object).getMessage());
             }
         });
@@ -149,7 +150,7 @@ public class NativeManager extends ReactContextBaseJavaModule {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
         if (appUpdatePojo.getMainBundleUpdate() != null){
-            callback.invoke("主模块有更新,本地版本："+appPojo.getMainBundle().getCurrentVersion()+",远程版本："+appUpdatePojo.getMainBundleUpdate().getTargetVersion()+"。");
+            callback.invoke("本地版本："+appPojo.getMainBundle().getCurrentVersion()+",远程版本："+appUpdatePojo.getMainBundleUpdate().getTargetVersion()+"。");
         }
         /*BundleManager.getBundleManager().checkBundleConfigUpdate(this.getCurrentActivity().getApplication(), appPojo, new HttpProcessCallBack() {
 
@@ -164,17 +165,10 @@ public class NativeManager extends ReactContextBaseJavaModule {
                 if (appUpdatePojoResult.getMainBundleUpdate() != null) {
                     Log.w("MainUpdate", "=============主模块有更新");
                     WritableMap resultData = new WritableNativeMap();
-<<<<<<< HEAD
                     resultData.putString("name", appPojo.getMainBundle().getName());
                     resultData.putString("path", appPojo.getMainBundle().getPath());
                     resultData.putString("version", appPojo.getMainBundle().getCurrentVersion());
                     callback.invoke(resultData, appUpdatePojoResult.getMainBundleUpdate().getTargetVersion());
-=======
-                    resultData.putString("name", appPojo.mainBundle.name);
-                    resultData.putString("path", appPojo.mainBundle.path);
-                    resultData.putString("version", appPojo.mainBundle.currentVersion);
-                    callback.invoke(resultData, appUpdatePojoResult.mainBundleUpdate.targetVersion);
->>>>>>> 33c1e5a6bee0b8b54186d0b9b61027b9f429bb12
                 }
             }
 
@@ -186,27 +180,44 @@ public class NativeManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void updateMain(int bundleId, final Callback callback) {
+    public void updateMain(final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
+        Integer bundleId = appPojo.getMainBundle().getId();
+//        Integer bundleVersionId = appUpdatePojo.getMainBundleUpdate().getBundleVersionId();
         BundleUpdateRequestPojo bundleUpdateRequestPojo = new BundleUpdateRequestPojo(appPojo.getId(), appPojo.getName(), appPojo.getCurrentVersion(), appPojo.getUrl(), appPojo.getMainBundle().getName(), appUpdatePojo.getMainBundleUpdate().getTargetVersion(), bundleId);
         BundleManager.getBundleManager().updateBundle(bundleUpdateRequestPojo, this.getCurrentActivity().getApplication(), new HttpProcessCallBack() {
-            @Override
+
             public void progress(float progress) {
-                Log.w("NativeManager", String.format("%f", progress));
-                //Toast.makeText(getReactApplicationContext(), String.format("%f",progress)+"%", Toast.LENGTH_SHORT).show();
+                Log.w("NativeManager", "+++++"+String.format("%.2f", progress*100));
+                Log.w("NativeManager", "+-+-+"+String.format("%f", progress));
+                if(toast == null){
+                    toast = Toast.makeText(getReactApplicationContext(), String.format("%.2f",progress*100)+'%', Toast.LENGTH_SHORT);
+                }else{
+                    if(progress!=100.000000){
+                        toast.setText(String.format("%.2f",progress*100)+'%');
+                    }
+                }
+                toast.show();
             }
 
             @Override
             public void success(Object object) {
                 final File file = (File) object;
                 Log.w("NativeManager", String.format("%s", file.getAbsolutePath()));
+                //BundleManager.getBundleManager().loadBundle(getCurrentActivity(),file);
+                if(toast == null){
+                    toast = Toast.makeText(getReactApplicationContext(), String.format("download success"), Toast.LENGTH_SHORT);
+                }else{
+                    toast.setText(String.format("download success"));
+                }
                 BundleManager.getBundleManager().loadBundle(getCurrentActivity(), file);
                 callback.invoke("success", file.getAbsolutePath());
             }
 
             @Override
             public void failure(Object object) {
+                callback.invoke("failed", "downLoad failed!");
                 Log.w("NativeManager", ((Exception) object).getMessage());
             }
         });

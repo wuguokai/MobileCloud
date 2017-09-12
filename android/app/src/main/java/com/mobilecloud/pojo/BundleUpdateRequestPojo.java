@@ -11,7 +11,8 @@ public class BundleUpdateRequestPojo {
     private String appUrl;
     private String name;
     private String targetVerson;
-    private Integer bundleId;
+    private Integer bundleId;//模块的id
+//    private Integer bundleVersionId;//模块对应版本的id
 
     public Integer getAppId() {
         return appId;
@@ -61,6 +62,14 @@ public class BundleUpdateRequestPojo {
         this.targetVerson = targetVerson;
     }
 
+   /* public Integer getBundleVersionId() {
+        return bundleVersionId;
+    }
+
+    public void setBundleVersionId(Integer bundleVersionId) {
+        this.bundleVersionId = bundleVersionId;
+    }*/
+
     public Integer getBundleId() {
         return bundleId;
     }
@@ -69,7 +78,7 @@ public class BundleUpdateRequestPojo {
         this.bundleId = bundleId;
     }
 
-    public BundleUpdateRequestPojo(Integer appId, String appName, String appVersion, String appUrl, String name, String targetVerson, int bundleId) {
+    public BundleUpdateRequestPojo(Integer appId, String appName, String appVersion, String appUrl, String name, String targetVerson, Integer bundleId/*, Integer bundleVersionId*/) {
         this.appId = appId;
         this.appName = appName;
         this.appVersion = appVersion;
@@ -77,6 +86,7 @@ public class BundleUpdateRequestPojo {
         this.name = name;
         this.targetVerson = targetVerson;
         this.bundleId = bundleId;
+//        this.bundleVersionId = bundleVersionId;
     }
 
     @Override
@@ -88,7 +98,7 @@ public class BundleUpdateRequestPojo {
                 ", appUrl='" + appUrl + '\'' +
                 ", name='" + name + '\'' +
                 ", targetVerson='" + targetVerson + '\'' +
-                ", bundleId=" + bundleId +
+//                ", bundleVersionId=" + bundleVersionId +
                 '}';
     }
 }

@@ -34,8 +34,9 @@ export default class ThirdPage extends Component {
         this.fetchData = this.fetchData.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount() {   
         this.fetchData();
+        this.mainUpdate();
     }
 
     fetchData() {
@@ -53,7 +54,27 @@ export default class ThirdPage extends Component {
     mainUpdate () {
         NativeModules.NativeManager.checkMainUpdateAble( (back) => {
             if( back != null ){
-                Alert.alert(back);
+                Alert.alert(
+                    "是否更新主模块？",
+                    back,
+                    [
+                        {
+                            text: '是',
+                            onPress: () => {
+                                NativeModules.NativeManager.updateMain((type, result) => {
+                                    if (type == "success") {
+                                        //ToastAndroid.show(result, ToastAndroid.SHORT);
+                                    } else {
+                                        ToastAndroid.show(result, ToastAndroid.SHORT);
+                                    }
+                                });
+                            }
+                        },
+                        {
+                            text:'否'
+                        }
+                    ]
+                    );
             }
         });
     }
@@ -65,9 +86,9 @@ export default class ThirdPage extends Component {
 
         return (
             <View>
-                <TouchableHighlight onPress={this.mainUpdate.bind(this)}>
+                {/*<TouchableHighlight onPress={this.mainUpdate.bind(this)}>
                     <Text>判断主模块更新</Text>
-                </TouchableHighlight>
+                </TouchableHighlight>*/}
                 <Text style={styles.title}>可用模块</Text>
                 <ListView
                     dataSource={this.state.dataSource}

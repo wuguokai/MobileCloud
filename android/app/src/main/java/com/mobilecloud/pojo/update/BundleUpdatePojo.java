@@ -5,16 +5,25 @@ package com.mobilecloud.pojo.update;
  */
 
 public class BundleUpdatePojo {
-    private Integer id;//每个模块的id
+    private Integer bundleId;//每个模块的id
     private String name;
     private String targetVersion;
+    private Integer bundleVersionId;
 
-    public Integer getId() {
-        return id;
+    public Integer getBundleId() {
+        return bundleId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setBundleId(Integer bundleId) {
+        this.bundleId = bundleId;
+    }
+
+    public Integer getBundleVersionId() {
+        return bundleVersionId;
+    }
+
+    public void setBundleVersionId(Integer bundleVersionId) {
+        this.bundleVersionId = bundleVersionId;
     }
 
     public String getName() {
@@ -36,8 +45,10 @@ public class BundleUpdatePojo {
     @Override
     public String toString() {
         return "BundleUpdatePojo{" +
-                "name='" + name + '\'' +
+                "bundleId=" + bundleId +
+                ", name='" + name + '\'' +
                 ", targetVersion='" + targetVersion + '\'' +
+                ", bundleVersionId='" + bundleVersionId + '\'' +
                 '}';
     }
 }

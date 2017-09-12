@@ -90,10 +90,11 @@ public class BundleManager {
                 httpProcessCallBack.failure(object);
             }
         });
-        //String url = String.format("%s/updateBundle?bundle=%s&version=%s",bundleUpdateRequestPojo.appUrl,bundleUpdateRequestPojo.name,bundleUpdateRequestPojo.targetVerson);
-        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.getAppUrl(),bundleUpdateRequestPojo.getBundleId());
+        String url = String.format("%s/downFile/%s/%s",bundleUpdateRequestPojo.getAppUrl(),bundleUpdateRequestPojo.getAppId(),bundleUpdateRequestPojo.getBundleId());
+//        String url = String.format("%s/downFile/%s",bundleUpdateRequestPojo.getAppUrl(),bundleUpdateRequestPojo.getBundleVersionId());
         task.execute(url);
     }
+
     //下载成功后改本地配置文件
     public synchronized void updateBundleSuccess(Application application, Integer bundleId, String name,String version,File bundleFile){
         AppPojo appPojo = getAppPojo(application);
