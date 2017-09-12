@@ -164,17 +164,10 @@ public class NativeManager extends ReactContextBaseJavaModule {
                 if (appUpdatePojoResult.getMainBundleUpdate() != null) {
                     Log.w("MainUpdate", "=============主模块有更新");
                     WritableMap resultData = new WritableNativeMap();
-<<<<<<< HEAD
                     resultData.putString("name", appPojo.getMainBundle().getName());
                     resultData.putString("path", appPojo.getMainBundle().getPath());
                     resultData.putString("version", appPojo.getMainBundle().getCurrentVersion());
                     callback.invoke(resultData, appUpdatePojoResult.getMainBundleUpdate().getTargetVersion());
-=======
-                    resultData.putString("name", appPojo.mainBundle.name);
-                    resultData.putString("path", appPojo.mainBundle.path);
-                    resultData.putString("version", appPojo.mainBundle.currentVersion);
-                    callback.invoke(resultData, appUpdatePojoResult.mainBundleUpdate.targetVersion);
->>>>>>> 33c1e5a6bee0b8b54186d0b9b61027b9f429bb12
                 }
             }
 
