@@ -34,9 +34,17 @@ export default class ThirdPage extends Component {
         this.fetchData = this.fetchData.bind(this);
     }
 
-    componentDidMount() {   
+    componentDidMount() {
         this.fetchData();
-        this.mainUpdate();
+        this.timer = setTimeout( () => {
+                this.mainUpdate();
+            },
+            3000
+        );
+    }
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
     }
 
     fetchData() {
