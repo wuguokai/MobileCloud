@@ -18,7 +18,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-let iconPath = '';
+let iconPath = '';//模块图标路径
 var REQUEST_URL = 'http://10.211.97.242:8378/v1/bundle/getData/1';
 var width = Dimensions.get('window').width;
 export default class ThirdPage extends Component {
@@ -103,7 +103,7 @@ export default class ThirdPage extends Component {
                 {/*<TouchableHighlight onPress={this.mainUpdate.bind(this)}>
                     <Text>判断主模块更新</Text>
                 </TouchableHighlight>*/}
-                <Text>更新之后的主模块！</Text>
+                {/* <Text>更新之后的主模块！</Text> */}
                 <Text style={styles.title}>可用模块</Text>
                 <ListView
                     dataSource={this.state.dataSource}
