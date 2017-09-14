@@ -71,6 +71,55 @@ public class BundleManager {
         return bundleManager;
     }
 
+    public String downloadIcon(final AppPojo appPojo, final Application application){
+
+        File fileMkdir = new File(getDiskCacheDir(application)+"/icon");
+        fileMkdir.mkdir();
+        File file = new File(fileMkdir, "icon.zip");
+        if (file != null && file.length() > 0) {
+            file.delete();
+        }
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        try{
+            String urlstr = String.format("%s/getBundleFileList/%s",appPojo.getUrl(), appPojo.getId());
+            URL url = new URL(urlstr);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+            InputStream fileInputStream = connection.getInputStream();
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+            if (fileInputStream != null) {
+                byte[] buffer = new byte[1024];
+                ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                int len = 0;
+                while ((len = fileInputStream.read(buffer)) != -1){
+                    bout.write(buffer, 0, len);
+                    fileOutputStream.write(buffer, 0, len);
+                }
+                fileInputStream.close();
+                fileOutputStream.close();
+            }
+            unZipFiles(file, "");
+            return file.getAbsolutePath();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (bis != null){
+                    bis.close();
+                }
+                if (bos != null){
+                    bos.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     // 更新Bundle
     //参数，1,bundle名称 2，更新url 3,
 

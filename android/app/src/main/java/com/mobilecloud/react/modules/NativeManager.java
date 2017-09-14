@@ -21,8 +21,12 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.module.annotations.ReactModule;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by hailor on 2017/6/28.
@@ -223,5 +227,15 @@ public class NativeManager extends ReactContextBaseJavaModule {
         });
     }
 
+    @ReactMethod
+    public void downloadIcon(final Callback callback){
+        final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
+        String zipPath = BundleManager.getBundleManager().downloadIcon(appPojo, this.getCurrentActivity().getApplication());
+
+        if (zipPath != null) {
+            String path = zipPath.replace("icon.zip", "");
+            callback.invoke(path);
+        }
+    }
 
 }
