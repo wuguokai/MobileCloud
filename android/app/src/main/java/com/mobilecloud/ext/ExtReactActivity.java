@@ -7,14 +7,9 @@ import android.view.KeyEvent;
 
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.NativeModule;
-import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.PermissionAwareActivity;
 import com.facebook.react.modules.core.PermissionListener;
-import com.mobilecloud.MainApplication;
-import com.mobilecloud.react.modules.NativeManager;
 
 import javax.annotation.Nullable;
 
@@ -65,18 +60,6 @@ public abstract class ExtReactActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
-        /*Thread thread = new Thread(){
-            @Override
-            public void run() {
-                NativeManager nativeManager = new NativeManager((ReactApplicationContext) getApplicationContext());
-                nativeManager.checkMainUpdateAble(new Callback() {
-                    @Override
-                    public void invoke(Object... args) {
-
-                    }
-                });
-            }
-        };*/
     }
 
     @Override

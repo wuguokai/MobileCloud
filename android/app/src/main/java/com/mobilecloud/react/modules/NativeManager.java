@@ -16,17 +16,11 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.module.annotations.ReactModule;
 
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by hailor on 2017/6/28.
@@ -58,9 +52,12 @@ public class NativeManager extends ReactContextBaseJavaModule {
     }
 
 
+
+
+
     //点击子模块
     @ReactMethod
-    public void openBundle(String name, /*Integer id,*/ Callback callback) {
+    public void openBundle(final String name, /*Integer id,*/ Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
         if (appPojo.getBundles().get(name) != null) {
@@ -72,13 +69,15 @@ public class NativeManager extends ReactContextBaseJavaModule {
             } else {
                 //cache的子模块是最新版本，直接打开
                 ((MainApplication) getCurrentActivity().getApplication()).setActivity(SecondActivity.class.getName(), appPojo.getBundles().get(name).getPath());
-                SecondActivity storedActivity = (SecondActivity) ((MainApplication) getCurrentActivity().getApplication()).getActivity(SecondActivity.class.getName());
-                if (storedActivity != null) {
+//                SecondActivity storedActivity = (SecondActivity) ((MainApplication) getCurrentActivity().getApplication()).getActivity(SecondActivity.class.getName());
+//                Log.w("activity", getCurrentActivity().getLocalClassName());
+                /*if (storedActivity != null) {
                     BundleManager.getBundleManager().loadBundle(storedActivity, new File(appPojo.getBundles().get(name).getPath()));
-                }
+                }*/
                 ReactApplicationContext context = getReactApplicationContext();
                 Intent intent = new Intent(context, SecondActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("bundleName", name);
                 context.startActivity(intent);
             }
         } else {

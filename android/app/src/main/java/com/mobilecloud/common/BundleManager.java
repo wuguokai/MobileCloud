@@ -9,8 +9,6 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.mobilecloud.MainActivity;
-import com.mobilecloud.MainApplication;
 import com.mobilecloud.ext.ExtReactApplication;
 import com.mobilecloud.pojo.AppPojo;
 import com.mobilecloud.pojo.BundlePojo;
@@ -38,7 +36,6 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;

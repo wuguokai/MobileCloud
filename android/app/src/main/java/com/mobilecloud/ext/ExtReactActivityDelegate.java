@@ -13,9 +13,10 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.mobilecloud.MainApplication;
+import com.mobilecloud.MainActivity;
 import com.facebook.common.logging.FLog;
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.ReactActivity;
@@ -29,6 +30,10 @@ import com.facebook.react.common.ReactConstants;
 import com.facebook.react.devsupport.DoubleTapReloadRecognizer;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.PermissionListener;
+import com.mobilecloud.SecondActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -57,6 +62,8 @@ public class ExtReactActivityDelegate {
     PermissionListener mPermissionListener;
     private @Nullable
     Callback mPermissionsCallback;
+    private static final Map<String, ReactRootView> secondRootViewCache = new HashMap<>();
+    String bundleName = "";
 
     public ExtReactActivityDelegate(Activity activity, @Nullable String mainComponentName) {
         mActivity = activity;
@@ -118,14 +125,25 @@ public class ExtReactActivityDelegate {
         if (mReactRootView != null) {
             throw new IllegalStateException("Cannot loadApp while app is already running.");
         }
-        mReactRootView = createRootView();
-        mReactRootView.startReactApplication(
-                getReactNativeHost().getReactInstanceManager(),
-//                ReactInstanceManager.builder().build(),
-                appKey,
-                getLaunchOptions());
+        bundleName = mActivity.getIntent().getStringExtra("bundleName");
+        if (mActivity instanceof MainActivity){//主模块不做预加载
+            mReactRootView = createRootView();
+            mReactRootView.startReactApplication(
+                    getReactNativeHost().getReactInstanceManager(),
+                    appKey,
+                    getLaunchOptions());
+        }else{//子模块做预加载
+            mReactRootView = secondRootViewCache.get(bundleName);
+            if (mReactRootView == null){
+                mReactRootView = createRootView();
+                mReactRootView.startReactApplication(
+                        getReactNativeHost().getReactInstanceManager(),
+                        appKey,
+                        getLaunchOptions());
+                secondRootViewCache.put(bundleName, mReactRootView);
+            }
+        }
         getPlainActivity().setContentView(mReactRootView);
-
     }
 
     protected void onPause() {
@@ -151,6 +169,20 @@ public class ExtReactActivityDelegate {
 
     protected void onDestroy() {
         Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onDestroy");
+
+        try {
+            ReactRootView rootView;
+            if(mActivity instanceof SecondActivity){
+                rootView = secondRootViewCache.get(bundleName);
+
+                ViewGroup parent = (ViewGroup) rootView.getParent();
+                if (parent != null) {
+                    parent.removeView(rootView);
+                }
+            }
+        } catch (Throwable e) {
+            Log.e("ReactNativePreLoader", e.getMessage());
+        }
         if (mReactRootView != null) {
             mReactRootView.unmountReactApplication();
             mReactRootView = null;

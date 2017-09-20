@@ -7,6 +7,7 @@ import com.mobilecloud.ext.ExtReactActivity;
  */
 
 public class SecondActivity extends ExtReactActivity {
+
     @Override
     protected String getMainComponentName() {
         return "MobileCloud";
