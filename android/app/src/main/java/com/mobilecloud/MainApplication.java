@@ -21,7 +21,6 @@ import java.util.Map;
 public class MainApplication extends Application implements ExtReactApplication/*, ReactApplication*/ {
 
     private  final  Map<String, ReactNativeHost> mReactNativeHostMap = new HashMap<String, ReactNativeHost>();
-    private static final Map<String, ReactRootView> ROOT_VIEW_MAP = new HashMap<>();
 
     private  final Map<String, Activity> activityHashMap = new HashMap<String, Activity>();
     private  final Map<String, String> activityPathHashMap = new HashMap<String, String>();
@@ -33,35 +32,16 @@ public class MainApplication extends Application implements ExtReactApplication/
           activityHashMap.put(activityKey,reactActivity);
         }
 
-        //    mReactNativeHostMap.remove(activityKey);
-        ReactNativeHost reactNativeHost = mReactNativeHostMap.get(activityKey);
-        if (reactNativeHost != null) {
-            if (reactActivity instanceof MainActivity){
-                return reactNativeHost;
-            }else {
-//                mReactNativeHostMap.remove(activityKey);
-                mReactNativeHostMap.put(activityKey, new ReactNativeHost(this) {
-                    @Override
-                    public boolean getUseDeveloperSupport() {
-                        return BuildConfig.DEBUG;
-                    }
+        String bundleName = reactActivity.getIntent().getStringExtra("bundleName");
+        ReactNativeHost reactNativeHost ;
+        if (reactActivity instanceof MainActivity){
+            reactNativeHost = mReactNativeHostMap.get(activityKey);
+        }else {
+            reactNativeHost = mReactNativeHostMap.get(bundleName);
+        }
 
-                    @Override
-                    protected List<ReactPackage> getPackages() {
-                        return Arrays.<ReactPackage>asList(
-                                new MainReactPackage(), new NativePackage()
-                        );
-                    }
-                    @Override
-                    protected String getJSBundleFile() {
-                        return activityPathHashMap.get(activityKey);
-                    }
-                    @Override
-                    protected String getJSMainModuleName() {
-                        return null;
-                    }
-                });
-            }
+        if (reactNativeHost != null) {
+            return reactNativeHost;
         } else {
           if(reactActivity instanceof MainActivity){
             final String mainBundle = BundleManager.getBundleManager().loadMainBundle(this);
@@ -86,31 +66,32 @@ public class MainApplication extends Application implements ExtReactApplication/
                 return null;
               }
             });
+              return mReactNativeHostMap.get(activityKey);
           }else{
-            mReactNativeHostMap.put(activityKey, new ReactNativeHost(this) {
-              @Override
-              public boolean getUseDeveloperSupport() {
-                return BuildConfig.DEBUG;
-              }
+                mReactNativeHostMap.put(bundleName, new ReactNativeHost(this) {
+                    @Override
+                    public boolean getUseDeveloperSupport() {
+                    return BuildConfig.DEBUG;
+                    }
 
-              @Override
-              protected List<ReactPackage> getPackages() {
-                return Arrays.<ReactPackage>asList(
-                        new MainReactPackage(), new NativePackage()
-                );
-              }
-              @Override
-              protected String getJSBundleFile() {
-                return activityPathHashMap.get(activityKey);
-              }
-              @Override
-              protected String getJSMainModuleName() {
-                return null;
-              }
-            });
+                    @Override
+                    protected List<ReactPackage> getPackages() {
+                        return Arrays.<ReactPackage>asList(
+                            new MainReactPackage(), new NativePackage()
+                    );
+                    }
+                    @Override
+                    protected String getJSBundleFile() {
+                        return activityPathHashMap.get(activityKey);
+                    }
+                    @Override
+                    protected String getJSMainModuleName() {
+                        return null;
+                    }
+                });
+              return mReactNativeHostMap.get(bundleName);
           }
         }
-        return mReactNativeHostMap.get(activityKey);
     }
 
 

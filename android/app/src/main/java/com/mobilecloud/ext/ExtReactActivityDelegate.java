@@ -31,6 +31,7 @@ import com.facebook.react.devsupport.DoubleTapReloadRecognizer;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.PermissionListener;
 import com.mobilecloud.SecondActivity;
+import com.mobilecloud.preload.PreLoadBundle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -133,7 +134,9 @@ public class ExtReactActivityDelegate {
                     appKey,
                     getLaunchOptions());
         }else{//子模块做预加载
-            mReactRootView = secondRootViewCache.get(bundleName);
+            PreLoadBundle.preLoad(mActivity, appKey, bundleName);
+            mReactRootView = PreLoadBundle.getRootView(bundleName);
+            /*mReactRootView = secondRootViewCache.get(bundleName);
             if (mReactRootView == null){
                 mReactRootView = createRootView();
                 mReactRootView.startReactApplication(
@@ -141,7 +144,7 @@ public class ExtReactActivityDelegate {
                         appKey,
                         getLaunchOptions());
                 secondRootViewCache.put(bundleName, mReactRootView);
-            }
+            }*/
         }
         getPlainActivity().setContentView(mReactRootView);
     }
@@ -169,20 +172,21 @@ public class ExtReactActivityDelegate {
 
     protected void onDestroy() {
         Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onDestroy");
+        if(mActivity instanceof SecondActivity){
+            PreLoadBundle.destoryViewGroup(bundleName);
+            /*try {
+                ReactRootView rootView;
+                    rootView = secondRootViewCache.get(bundleName);
 
-        try {
-            ReactRootView rootView;
-            if(mActivity instanceof SecondActivity){
-                rootView = secondRootViewCache.get(bundleName);
-
-                ViewGroup parent = (ViewGroup) rootView.getParent();
-                if (parent != null) {
-                    parent.removeView(rootView);
-                }
-            }
-        } catch (Throwable e) {
-            Log.e("ReactNativePreLoader", e.getMessage());
+                    ViewGroup parent = (ViewGroup) rootView.getParent();
+                    if (parent != null) {
+                        parent.removeView(rootView);
+                    }
+            } catch (Throwable e) {
+                Log.e("ReactNativePreLoader", e.getMessage());
+            }*/
         }
+
         if (mReactRootView != null) {
             mReactRootView.unmountReactApplication();
             mReactRootView = null;
