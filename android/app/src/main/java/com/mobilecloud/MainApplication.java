@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by WUGUOKAI on 2017/8/28.
+ */
+
 public class MainApplication extends Application implements ExtReactApplication/*, ReactApplication*/ {
 
     private  final  Map<String, ReactNativeHost> mReactNativeHostMap = new HashMap<String, ReactNativeHost>();

@@ -17,13 +17,14 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
+import com.mobilecloud.preload.PreLoadBundle;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by hailor on 2017/6/28.
+ * Created by WUGUOKAI on 2017/8/28.
  */
 
 @ReactModule(name = "UpdateAndroid")
@@ -50,10 +51,6 @@ public class NativeManager extends ReactContextBaseJavaModule {
         constants.put(DURATION_LONG_KEY, Toast.LENGTH_LONG);
         return constants;
     }
-
-
-
-
 
     //点击子模块
     @ReactMethod
@@ -152,34 +149,13 @@ public class NativeManager extends ReactContextBaseJavaModule {
     public void checkMainUpdateAble(final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         final AppUpdatePojo appUpdatePojo = BundleManager.getBundleManager().getAppUpdatePojo(this.getCurrentActivity().getApplication());
-        if (appUpdatePojo.getMainBundleUpdate() != null){
-            callback.invoke("本地版本："+appPojo.getMainBundle().getCurrentVersion()+",远程版本："+appUpdatePojo.getMainBundleUpdate().getTargetVersion()+"。");
+        if (appUpdatePojo != null){
+            if (appUpdatePojo.getMainBundleUpdate() != null){
+                callback.invoke("本地版本："+appPojo.getMainBundle().getCurrentVersion()+",远程版本："+appUpdatePojo.getMainBundleUpdate().getTargetVersion()+"。");
+            }
+        }else {
+            callback.invoke("netError");
         }
-        /*BundleManager.getBundleManager().checkBundleConfigUpdate(this.getCurrentActivity().getApplication(), appPojo, new HttpProcessCallBack() {
-
-            @Override
-            public void progress(float progress) {
-
-            }
-
-            @Override
-            public void success(Object object) {
-                AppUpdatePojo appUpdatePojoResult = (AppUpdatePojo) object;
-                if (appUpdatePojoResult.getMainBundleUpdate() != null) {
-                    Log.w("MainUpdate", "=============主模块有更新");
-                    WritableMap resultData = new WritableNativeMap();
-                    resultData.putString("name", appPojo.getMainBundle().getName());
-                    resultData.putString("path", appPojo.getMainBundle().getPath());
-                    resultData.putString("version", appPojo.getMainBundle().getCurrentVersion());
-                    callback.invoke(resultData, appUpdatePojoResult.getMainBundleUpdate().getTargetVersion());
-                }
-            }
-
-            @Override
-            public void failure(Object object) {
-
-            }
-        });*/
     }
 
     @ReactMethod

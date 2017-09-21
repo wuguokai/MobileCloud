@@ -39,6 +39,10 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
+ * Created by WUGUOKAI on 2017/8/28.
+ */
+
+/**
  * Delegate class for {@link ReactActivity} and {@link ReactFragmentActivity}. You can subclass this
  * to provide custom implementations for e.g. {@link #getReactNativeHost()}, if your Application
  * class doesn't implement {@link ExtReactApplication}.
@@ -136,15 +140,6 @@ public class ExtReactActivityDelegate {
         }else{//子模块做预加载
             PreLoadBundle.preLoad(mActivity, appKey, bundleName);
             mReactRootView = PreLoadBundle.getRootView(bundleName);
-            /*mReactRootView = secondRootViewCache.get(bundleName);
-            if (mReactRootView == null){
-                mReactRootView = createRootView();
-                mReactRootView.startReactApplication(
-                        getReactNativeHost().getReactInstanceManager(),
-                        appKey,
-                        getLaunchOptions());
-                secondRootViewCache.put(bundleName, mReactRootView);
-            }*/
         }
         getPlainActivity().setContentView(mReactRootView);
     }
@@ -174,17 +169,6 @@ public class ExtReactActivityDelegate {
         Log.w("ExtReactActivityDelegat",mActivity.getLocalClassName()+": onDestroy");
         if(mActivity instanceof SecondActivity){
             PreLoadBundle.destoryViewGroup(bundleName);
-            /*try {
-                ReactRootView rootView;
-                    rootView = secondRootViewCache.get(bundleName);
-
-                    ViewGroup parent = (ViewGroup) rootView.getParent();
-                    if (parent != null) {
-                        parent.removeView(rootView);
-                    }
-            } catch (Throwable e) {
-                Log.e("ReactNativePreLoader", e.getMessage());
-            }*/
         }
 
         if (mReactRootView != null) {

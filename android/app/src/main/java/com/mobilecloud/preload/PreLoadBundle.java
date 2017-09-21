@@ -5,13 +5,14 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.facebook.react.ReactRootView;
-import com.mobilecloud.SecondActivity;
 import com.mobilecloud.ext.ExtReactApplication;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * bundle缓存器
+ *
  * Created by WUGUOKAI on 2017/9/20.
  */
 

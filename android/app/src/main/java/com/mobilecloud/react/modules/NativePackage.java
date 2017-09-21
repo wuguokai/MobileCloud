@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by hailor on 2017/6/28.
+ * Created by WUGUOKAI on 2017/8/28.
  */
 
 public class NativePackage implements ReactPackage {

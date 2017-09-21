@@ -67,7 +67,9 @@ export default class ThirdPage extends Component {
 
     mainUpdate () {
         NativeModules.NativeManager.checkMainUpdateAble( (back) => {
-            if( back != null ){
+            if(back == "netError"){
+                Alert.alert("网络或服务器出错，请重启软件再尝试！");
+            }else if( back != null ){
                 Alert.alert(
                     "是否更新主模块？",
                     back,

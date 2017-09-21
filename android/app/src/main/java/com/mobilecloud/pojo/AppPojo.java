@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by hailor on 2017/6/30.
+ * Created by WUGUOKAI on 2017/8/30.
  */
 
 public class AppPojo {

@@ -1,7 +1,7 @@
 package com.mobilecloud.pojo;
 
 /**
- * Created by hailor on 2017/7/1.
+ * Created by WUGUOKAI on 2017/9/1.
  */
 
 public class BundleUpdateRequestPojo {

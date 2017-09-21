@@ -50,7 +50,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by hailor on 2017/6/29.
+ * Created by WUGUOKAI on 2017/8/29.
  */
 
 public class BundleManager {
