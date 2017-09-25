@@ -44,7 +44,7 @@ public class BundlePojo {
 
     @Override
     public String toString() {
-        return "BundlePojo{" +
+        return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", currentVersion='" + currentVersion + '\'' +

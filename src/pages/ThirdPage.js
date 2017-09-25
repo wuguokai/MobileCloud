@@ -36,7 +36,41 @@ export default class ThirdPage extends Component {
     }
 
     componentDidMount() {
-        NativeModules.NativeManager.downloadIcon((back) => {
+       this.loadRemoteData();
+       this.loadLoaclData();
+    }
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
+
+    loadLoaclData(){
+        NativeModules.NativeManager.getLocalData()
+        .then((back) => {
+            console.log(back);
+            var bundleData = back.split('{');
+            var DATA = [];
+            for (var i=1; i<bundleData.length; i++){
+                var info = bundleData[i].split(',');
+                var id = info[0].split(':')[1];
+                var name = info[1].split(':')[1];
+                var data = {
+                    id,
+                    name
+                }
+                DATA.push(data);
+            }
+            console.log(DATA);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(DATA),
+                loaded: true,
+            });
+            console.log(this.state.dataSource);
+        });
+    }
+
+    loadRemoteData(){
+         NativeModules.NativeManager.downloadIcon((back) => {
             if(back != null){
                 iconPath = back;
             }
@@ -45,12 +79,8 @@ export default class ThirdPage extends Component {
         this.timer = setTimeout( () => {
                 this.mainUpdate();
             },
-            3000
+            2000
         );
-    }
-
-    componentWillUnmount() {
-        this.timer && clearTimeout(this.timer);
     }
 
     fetchData() {

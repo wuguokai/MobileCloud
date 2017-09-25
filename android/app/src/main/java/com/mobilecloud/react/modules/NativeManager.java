@@ -5,11 +5,17 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.mobilecloud.MainApplication;
 import com.mobilecloud.SecondActivity;
 import com.mobilecloud.common.BundleManager;
 import com.mobilecloud.common.HttpProcessCallBack;
 import com.mobilecloud.pojo.AppPojo;
+import com.mobilecloud.pojo.BundlePojo;
 import com.mobilecloud.pojo.BundleUpdateRequestPojo;
 import com.mobilecloud.pojo.update.AppUpdatePojo;
 import com.facebook.react.bridge.Callback;
@@ -19,8 +25,13 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 import com.mobilecloud.preload.PreLoadBundle;
 
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -213,4 +224,22 @@ public class NativeManager extends ReactContextBaseJavaModule {
         }
     }
 
+    /**
+     * 获取本地信息
+     *
+     * @param promise
+     */
+    @ReactMethod
+    public void getLocalData(final Promise promise){
+        final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
+        Map<String, BundlePojo> bundlePojoMap = appPojo.getBundles();
+        String bundles = "";
+        for (Map.Entry<String, BundlePojo> bundlePojoEntry:bundlePojoMap.entrySet()){
+            String bundle = "{id:"+bundlePojoEntry.getValue().getId()+",name:"+bundlePojoEntry.getValue().getName();
+            bundles = bundles+bundle;
+        }
+
+        Log.i("bundlePojoList", bundles);
+        promise.resolve(bundles);
+    }
 }
