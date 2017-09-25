@@ -38,10 +38,12 @@ export default class ThirdPage extends Component {
    
 
     componentDidMount() {
-        NativeModules.NativeManager.getServerUrl()
+        NativeModules.NativeManager.getConfigData()
         .then((back) => {
-            REQUEST_URL = back+"/getData/1";
+            REQUEST_URL = back['serverUrl']+"/getData/1";
             console.log(REQUEST_URL);
+            iconPath = back['iconPath'];
+            console.log(iconPath);
         })
         .then(() => {
             this._fetch(REQUEST_URL, 5000)
@@ -53,10 +55,6 @@ export default class ThirdPage extends Component {
                 this.loadLoaclData();
                 // throw new Error(err);
             });
-        });
-        NativeModules.NativeManager.getIconPath((back) => {
-            iconPath = back;
-            console.log(iconPath);
         });
     }
 

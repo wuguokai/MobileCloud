@@ -2,15 +2,12 @@ package com.mobilecloud.react.modules;
 
 
 import android.content.Intent;
-import android.telecom.Call;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
-import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
 import com.mobilecloud.MainApplication;
 import com.mobilecloud.SecondActivity;
 import com.mobilecloud.common.BundleManager;
@@ -245,18 +242,18 @@ public class NativeManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getIconPath(final Callback callback){
+    public void getConfigData(final Promise promise){
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
+        WritableMap writableMap = Arguments.createMap();
+
+        String serverUrl = appPojo.getUrl();
+        writableMap.putString("serverUrl", serverUrl);
+
         String mainPath = appPojo.getMainBundle().getPath();
         String appPath = mainPath.replace("index/index.android.bundle", "");
-        appPath = appPath+"icon/";
-        callback.invoke(appPath);
-    }
+        String iconPath = appPath+"icon/";
+        writableMap.putString("iconPath", iconPath);
 
-    @ReactMethod
-    public void getServerUrl(final Promise promise){
-        final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
-        String serverUrl = appPojo.getUrl();
-        promise.resolve(serverUrl);
+        promise.resolve(writableMap);
     }
 }
