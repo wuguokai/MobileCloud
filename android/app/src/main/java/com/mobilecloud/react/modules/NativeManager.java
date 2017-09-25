@@ -2,6 +2,7 @@ package com.mobilecloud.react.modules;
 
 
 import android.content.Intent;
+import android.telecom.Call;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -241,5 +242,14 @@ public class NativeManager extends ReactContextBaseJavaModule {
 
         Log.i("bundlePojoList", bundles);
         promise.resolve(bundles);
+    }
+
+    @ReactMethod
+    public void getIconPath(final Callback callback){
+        final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
+        String mainPath = appPojo.getMainBundle().getPath();
+        String appPath = mainPath.replace("index/index.android.bundle", "");
+        appPath = appPath+"icon/";
+        callback.invoke(appPath);
     }
 }

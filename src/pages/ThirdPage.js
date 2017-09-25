@@ -35,19 +35,47 @@ export default class ThirdPage extends Component {
         this.fetchData = this.fetchData.bind(this);
     }
 
+   
+
     componentDidMount() {
-       this.loadRemoteData();
-       this.loadLoaclData();
+        NativeModules.NativeManager.getIconPath((back) => {
+            iconPath = back;
+            console.log(iconPath);
+        });
+        this._fetch(REQUEST_URL, 5000)
+        .then((info)=> {
+            console.log("yes");
+            this.loadRemoteData();
+        }).catch((err)=> {
+            console.log("error");
+            this.loadLoaclData();
+            // throw new Error(err);
+        });
     }
 
     componentWillUnmount() {
         this.timer && clearTimeout(this.timer);
     }
 
+     // 超时版的fetch
+    _fetch(url, timeout) {
+        return Promise.race([
+            fetch(url),
+            new Promise(function (resolve, reject) {
+                setTimeout(() => reject(new Error('request timeout')), timeout);
+            })
+        ]);
+    }
+
+    /**
+     * 
+     *  加载本地模块
+     * 
+     * @memberof ThirdPage
+     */
     loadLoaclData(){
         NativeModules.NativeManager.getLocalData()
         .then((back) => {
-            console.log(back);
             var bundleData = back.split('{');
             var DATA = [];
             for (var i=1; i<bundleData.length; i++){
@@ -60,15 +88,18 @@ export default class ThirdPage extends Component {
                 }
                 DATA.push(data);
             }
-            console.log(DATA);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(DATA),
                 loaded: true,
             });
-            console.log(this.state.dataSource);
         });
     }
 
+    /**
+     * 加载远程模块并验证
+     * 
+     * @memberof ThirdPage
+     */
     loadRemoteData(){
          NativeModules.NativeManager.downloadIcon((back) => {
             if(back != null){
@@ -91,6 +122,7 @@ export default class ThirdPage extends Component {
                     dataSource: this.state.dataSource.cloneWithRows(responseData),
                     loaded: true,
                 });
+                console.log("*********");
                 console.log(responseData);
             });
     }
