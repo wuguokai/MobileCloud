@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 
 let iconPath = '';//模块图标路径
-var REQUEST_URL = 'http://10.211.97.242:8378/v1/bundle/getData/1';
+var REQUEST_URL = '';
 var width = Dimensions.get('window').width;
 export default class ThirdPage extends Component {
 
@@ -38,18 +38,25 @@ export default class ThirdPage extends Component {
    
 
     componentDidMount() {
+        NativeModules.NativeManager.getServerUrl()
+        .then((back) => {
+            REQUEST_URL = back+"/getData/1";
+            console.log(REQUEST_URL);
+        })
+        .then(() => {
+            this._fetch(REQUEST_URL, 5000)
+            .then((info)=> {
+                console.log("yes");
+                this.loadRemoteData();
+            }).catch((err)=> {
+                console.log("error");
+                this.loadLoaclData();
+                // throw new Error(err);
+            });
+        });
         NativeModules.NativeManager.getIconPath((back) => {
             iconPath = back;
             console.log(iconPath);
-        });
-        this._fetch(REQUEST_URL, 5000)
-        .then((info)=> {
-            console.log("yes");
-            this.loadRemoteData();
-        }).catch((err)=> {
-            console.log("error");
-            this.loadLoaclData();
-            // throw new Error(err);
         });
     }
 

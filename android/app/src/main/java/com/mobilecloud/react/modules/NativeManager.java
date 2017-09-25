@@ -252,4 +252,11 @@ public class NativeManager extends ReactContextBaseJavaModule {
         appPath = appPath+"icon/";
         callback.invoke(appPath);
     }
+
+    @ReactMethod
+    public void getServerUrl(final Promise promise){
+        final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
+        String serverUrl = appPojo.getUrl();
+        promise.resolve(serverUrl);
+    }
 }
