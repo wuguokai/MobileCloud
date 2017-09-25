@@ -134,9 +134,9 @@ export default class ThirdPage extends Component {
 
     mainUpdate () {
         NativeModules.NativeManager.checkMainUpdateAble( (back) => {
-            if(back == "netError"){
+            /*if(back == "netError"){
                 Alert.alert("网络或服务器出错，请重启软件再尝试！");
-            }else if( back != null ){
+            }else */if( back != null ){
                 Alert.alert(
                     "是否更新主模块？",
                     back,
@@ -200,9 +200,9 @@ export default class ThirdPage extends Component {
     show(name, id) {
         NativeModules.NativeManager.openBundle(name, (type) => {
             let title = ""
-            if (type == "netError") {
+            /*if (type == "netError") {
                 Alert.alert("网络或服务器出错，请重启软件再尝试！");
-            }else{
+            }else{*/
                 if (type == "update") {
                     title = "发现新版本,是否升级?"
                 } else {
@@ -231,7 +231,7 @@ export default class ThirdPage extends Component {
                         }
                     ]
                 );
-            }
+            // }
         });
     }
 

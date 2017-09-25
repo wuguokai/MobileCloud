@@ -24,6 +24,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -246,7 +247,7 @@ public class BundleManager {
     //加载bundle
     public String loadMainBundle(final Application application) {
         final AppPojo appPojo = syncBundleConfig(application);
-//        final AppUpdatePojo appUpdatePojo = syncBundleUpdateConfig(application);
+        final AppUpdatePojo appUpdatePojo = syncBundleUpdateConfig(application);
         checkBundleConfigUpdate(application,appPojo,new HttpProcessCallBack(){
             @Override
             public void progress(float progress) {
@@ -307,6 +308,21 @@ public class BundleManager {
             //复制bundle.json到手机路径下
             for (Map.Entry<String, BundlePojo> bundleConfig : appPojo.getBundles().entrySet()) {
                 bundleConfig.getValue().setPath(copyAssetsBundle(application, bundleConfig.getValue().getName(), bundleConfig.getValue().getPath()));
+                //TODO 对自带模块解压时复制图标到icon文件夹
+                String bundleName = bundleConfig.getValue().getName();
+                String bundlePath = getDiskCacheDir(application)+"/"+bundleName;
+                File iconFile = new File(bundlePath,bundleName+".png");
+                File iconMkdir = new File(getDiskCacheDir(application)+"/icon");
+                iconMkdir.mkdir();
+                File icon = new File(iconMkdir,bundleName+".png");
+                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(iconFile));
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(icon));
+                int len = -1;
+                byte[] buffer = new byte[512];
+                while ((len = bis.read(buffer)) != -1) {
+                    bos.write(buffer, 0, len);
+                    bos.flush();
+                }
             }
             FileWriter writer = new FileWriter(file);
             writer.write(gson.toJson(appPojo));

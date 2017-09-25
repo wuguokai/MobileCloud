@@ -10,5 +10,11 @@
     "path": "assets://index.android-1.1.0.zip"
   },
   "bundles": {
+    "Appmain":{
+      "id":"1",
+      "name":"Appmain",
+      "currentVersion":"1.1.0",
+      "path":"Appmain.android-1.1.0.zip"
+    }
   }
 }
