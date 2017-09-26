@@ -46,7 +46,7 @@ export default class ThirdPage extends Component {
             console.log(iconPath);
         })
         .then(() => {
-            this._fetch(REQUEST_URL, 5000)
+            this._fetch(REQUEST_URL, 3000)
             .then((info)=> {
                 console.log("yes");
                 this.loadRemoteData();
@@ -134,9 +134,9 @@ export default class ThirdPage extends Component {
 
     mainUpdate () {
         NativeModules.NativeManager.checkMainUpdateAble( (back) => {
-            /*if(back == "netError"){
+            if(back == "netError"){
                 Alert.alert("网络或服务器出错，请重启软件再尝试！");
-            }else */if( back != null ){
+            }else if( back != null ){
                 Alert.alert(
                     "是否更新主模块？",
                     back,

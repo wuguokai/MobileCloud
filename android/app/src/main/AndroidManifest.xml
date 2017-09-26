@@ -14,7 +14,7 @@
         android:name="com.mobilecloud.MainApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/hand"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.mobilecloud.MainActivity"
