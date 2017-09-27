@@ -65,7 +65,11 @@ export default class ThirdPage extends Component {
      // 超时版的fetch
     _fetch(url, timeout) {
         return Promise.race([
-            fetch(url),
+            fetch(url,{
+                    headers:{
+                        "Authorization":"Bearer 177dc3f7-f491-476e-afc6-c49498420b5b"
+                    }
+            }),
             new Promise(function (resolve, reject) {
                 setTimeout(() => reject(new Error('request timeout')), timeout);
             })
@@ -120,7 +124,11 @@ export default class ThirdPage extends Component {
     }
 
     fetchData() {
-        fetch(REQUEST_URL)
+        fetch(REQUEST_URL, {
+                    headers:{
+                        "Authorization":"Bearer 177dc3f7-f491-476e-afc6-c49498420b5b"
+                    }
+            })
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({

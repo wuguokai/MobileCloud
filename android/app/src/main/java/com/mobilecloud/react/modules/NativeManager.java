@@ -21,15 +21,9 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
-import com.mobilecloud.preload.PreLoadBundle;
-
-import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -142,18 +136,6 @@ public class NativeManager extends ReactContextBaseJavaModule {
         });
     }
 
-
-
-    /*@ReactMethod
-    public void show(String message, int duration) {
-        ReactApplicationContext context = getReactApplicationContext();
-        Intent intent = new Intent(context, SecondActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        Toast.makeText(getReactApplicationContext(), message, duration).show();
-    }*/
-
-
     @ReactMethod
     public void checkMainUpdateAble(final Callback callback) {
         final AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
@@ -256,4 +238,10 @@ public class NativeManager extends ReactContextBaseJavaModule {
 
         promise.resolve(writableMap);
     }
+
+    @ReactMethod
+    public void getToken(String token){
+        BundleManager.getBundleManager().setToken(token);
+    }
+
 }

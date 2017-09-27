@@ -62,11 +62,16 @@ public class BundleManager {
     private static String bundleVersion = "" ;
     private static BundleManager bundleManager;
     private Gson gson = new Gson();
+    static String token = "Bearer 177dc3f7-f491-476e-afc6-c49498420b5b";
 
     public synchronized static BundleManager getBundleManager() {
         if (bundleManager == null)
             bundleManager = new BundleManager();
         return bundleManager;
+    }
+
+    public static void setToken(String tokenStr){
+        token = tokenStr;
     }
 
     public String downloadIcon(final AppPojo appPojo, final Application application){
@@ -83,6 +88,7 @@ public class BundleManager {
             String urlstr = String.format("%s/getBundleFileList/%s",appPojo.getUrl(), appPojo.getId());
             URL url = new URL(urlstr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Authorization",token);
             connection.connect();
 
             InputStream fileInputStream = connection.getInputStream();
@@ -393,7 +399,7 @@ public class BundleManager {
         RequestBody body = RequestBody.create(jsonType, bundleConfig);
         Request request = new Request.Builder()
                 .url(appPojo.getUrl() + "/checkBundle")
-//                .addHeader("Authorization","Bearer 30fe871d-b8b1-450a-9a1f-c0784a39e33a")
+                .addHeader("Authorization",token)
                 .post(body)
                 .build();
         Call call = client.newCall(request);
@@ -513,15 +519,16 @@ public class BundleManager {
             BufferedOutputStream bos = null;
             try {
                 URL url = new URL(remoteUrl);
-                HttpURLConnection conection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("Authorization",token);
+                connection.connect();
 
-                conection.connect();
-                Map<String, List<String>> map = conection.getHeaderFields();
+                Map<String, List<String>> map = connection.getHeaderFields();
                 List<String> contentDis = map.get("Content-Disposition");
                 bundleVersion = contentDis.get(0).substring(contentDis.get(0).indexOf("-")+1,contentDis.get(0).length()-4);
 
                 // getting file length
-                InputStream fileInputStream = conection.getInputStream();
+                InputStream fileInputStream = connection.getInputStream();
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 int size = Integer.parseInt(map.get("Content-Size").get(0));
                 if(fileInputStream!=null){
