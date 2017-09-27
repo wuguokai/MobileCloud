@@ -1,53 +1,89 @@
-'use strict';
 import React, {
     Component,
 } from 'react';
-
 import {
-    View,
+    Container,
+    Header,
+    Content,
+    List,
+    ListItem,
     Text,
-    Image,
-    StyleSheet,
-    ScrollView,
-    Alert,
-    ListView,
-    RefreshControl,
-    Dimensions,
-    PixelRatio,
-    TouchableWithoutFeedback
-} from 'react-native';
-import MenuButton from '../components/MenuButton';
+    Icon,
+    Left,
+    Body,
+    Right,
+    Switch,
+    Thumbnail
+} from 'native-base';
 
-export default class FirstPage extends Component {
+export default class ListIconExample extends Component {
 
-    _onMenuClick(title, tag) {
-        Alert.alert('提示', '点击了:' + title + " Tag:" + tag);
-    }
+    static propTypes = {
+        nav: React.PropTypes.object,
+    };
 
     render() {
+        const { navigate } = this.props.nav;
         return (
-            <View>
-                <View style={styles.menuView}>
-                    <MenuButton renderIcon={require('../images/home_icons/wdgz.png')}
-                        showText={'模块1'} tag={'m1'}
-                        onClick={this._onMenuClick} />
-                    <MenuButton renderIcon={require('../images/home_icons/wlcx.png')}
-                        showText={'模块2'} tag={'m2'}
-                        onClick={this._onMenuClick} />
-                    <MenuButton renderIcon={require('../images/home_icons/cz.png')}
-                        showText={'模块3'} tag={'m3'}
-                        onClick={this._onMenuClick} />
-                    <MenuButton renderIcon={require('../images/home_icons/dyp.png')}
-                        showText={'模块4'} tag={'m4'}
-                        onClick={this._onMenuClick} />
-                </View>
-            </View>)
+            <Container>
+                <Content style={{ backgroundColor: '#F1F1F1', }}>
+                    <List style={{ backgroundColor: '#FFFFFF', borderTopWidth: 0.5, borderTopColor: '#D1D1D1' }}>
+                        <ListItem avatar style={{}}>
+                            <Left>
+                                <Thumbnail source={{ uri: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2345970869,892410183&fm=173&s=8400FD17199351ED598CA8F503008063&w=218&h=146&img.JPEG' }} />
+                            </Left>
+                            <Body>
+                                <Text>Huang Qi</Text>
+                                <Text note>Doing what you like will always keep you happy . .</Text>
+                            </Body>
+                            <Right style={{ justifyContent: 'center', }}>
+                                <Icon name="arrow-forward" />
+                            </Right>
+                        </ListItem>
+
+                        <Content style={{ flex: 1, backgroundColor: '#eeeeee', height: 20 }}></Content>
+                        <ListItem icon first>
+                            <Left><Icon name="plane" style={{ color: 'lightskyblue' }} /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>订单信息</Text></Body>
+                            <Right><Switch value={false} /></Right>
+                        </ListItem>
+                        <ListItem icon>
+                            <Left><Icon name="wifi" style={{ color: '#fab614' }} /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>开票信息</Text></Body>
+                            <Right><Text style={{ fontSize: 12 }}>正在开票中...</Text><Icon name="arrow-forward" /></Right>
+                        </ListItem>
+                        <ListItem icon last>
+                            <Left><Icon name="bluetooth" style={{ color: '#F28B8B' }} /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>账号绑定</Text></Body>
+                            <Right><Text style={{ fontSize: 12 }}>已绑定</Text><Icon name="arrow-forward" /></Right>
+                        </ListItem>
+
+                        <Content style={{ flex: 1, backgroundColor: '#eeeeee', height: 20 }}></Content>
+                        <ListItem icon first>
+                            <Left><Icon name="plane" style={{ color: 'lightskyblue' }} /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>在线客服</Text></Body>
+                            <Right><Icon name="arrow-forward" /></Right>
+                        </ListItem>
+                        <ListItem icon>
+                            <Left><Icon name="wifi" style={{ color: '#fab614' }} /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>帮助与反馈</Text></Body>
+                            <Right><Icon name="arrow-forward" /></Right>
+                        </ListItem>
+                        <ListItem icon last>
+                            <Left><Icon name="bluetooth" style={{ color: '#F28B8B' }} /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>关于</Text></Body>
+                            <Right><Icon name="arrow-forward" /></Right>
+                        </ListItem>
+
+                        <Content style={{ flex: 1, backgroundColor: '#eeeeee', height: 20 }}></Content>
+                        <ListItem icon first last>
+                            <Left><Icon name="plane" /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>个人设置</Text></Body>
+                            <Right><Icon name="arrow-forward" /></Right>
+                        </ListItem>
+                    </List>
+                </Content>
+            </Container>
+        );
     }
 }
-
-const styles = StyleSheet.create({
-    menuView: {
-        flexDirection: 'row',
-        marginTop: 10
-    },
-});
