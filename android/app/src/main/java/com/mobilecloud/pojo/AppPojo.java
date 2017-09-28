@@ -11,9 +11,18 @@ public class AppPojo {
     private Integer id;
     private String name;
     private String currentVersion;
+    private String token;
     private String url;
     private BundlePojo mainBundle;
     private Map<String,BundlePojo> bundles= new HashMap<String,BundlePojo>();
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Integer getId() {
         return id;

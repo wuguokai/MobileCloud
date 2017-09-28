@@ -236,12 +236,18 @@ public class NativeManager extends ReactContextBaseJavaModule {
         String iconPath = appPath+"icon/";
         writableMap.putString("iconPath", iconPath);
 
+        String token = appPojo.getToken();
+        writableMap.putString("token", token);
+
         promise.resolve(writableMap);
     }
 
     @ReactMethod
-    public void getToken(String token){
+    public void setToken(String token){
         BundleManager.getBundleManager().setToken(token);
+        AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
+        appPojo.setToken(token);
+        BundleManager.getBundleManager().writeAppPojo(this.getCurrentActivity().getApplication(), appPojo);
     }
 
 }
