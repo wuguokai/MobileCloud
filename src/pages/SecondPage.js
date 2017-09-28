@@ -20,6 +20,7 @@ import Swiper from 'react-native-swiper';
 
 let iconPath = '';//模块图标路径
 var REQUEST_URL = '';
+let token = '';
 const { width, height } = Dimensions.get('window');
 export default class SecondPage extends Component {
 
@@ -47,6 +48,7 @@ export default class SecondPage extends Component {
                 REQUEST_URL = back['serverUrl'] + "/getData/1";
                 console.log(REQUEST_URL);
                 iconPath = back['iconPath'];
+                token = back['tolen'];
                 console.log(iconPath);
             })
             .then(() => {
@@ -72,10 +74,10 @@ export default class SecondPage extends Component {
     // 超时版的fetch
     _fetch(url, timeout) {
         return Promise.race([
-            fetch(url,{
-                    headers:{
-                        "Authorization":"Bearer 177dc3f7-f491-476e-afc6-c49498420b5b"
-                    }
+            fetch(url, {
+                headers: {
+                    "Authorization": token
+                }
             }),
             new Promise(function (resolve, reject) {
                 setTimeout(() => reject(new Error('request timeout')), timeout);
@@ -131,11 +133,11 @@ export default class SecondPage extends Component {
     }
 
     fetchData() {
-        fetch(REQUEST_URL,{
-                    headers:{
-                        "Authorization":"Bearer 177dc3f7-f491-476e-afc6-c49498420b5b"
-                    }
-            })
+        fetch(REQUEST_URL, {
+            headers: {
+                "Authorization": token
+            }
+        })
             .then((response) => response.json())
             .then((responseData) => {
                 this.setState({

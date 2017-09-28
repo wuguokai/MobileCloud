@@ -1,27 +1,27 @@
 {
-  "id":"1",
+  "id": "1",
   "name": "HANDRDC",
   "currentVersion": "1.0.0",
   "token": "",
-  "url": "http://100.211.97.242:8080/mobileCloud/v1/bundle",
+  "url": "http://10.211.97.242:8080/mobileCloud/v1/bundle",
   "mainBundle": {
-    "id":"6",
+    "id": "6",
     "name": "index",
     "currentVersion": "1.1.0",
     "path": "assets://index.android-1.1.0.zip"
   },
   "bundles": {
-    "Appmain":{
-      "id":"1",
-      "name":"Appmain",
-      "currentVersion":"1.1.0",
-      "path":"Appmain.android-1.1.0.zip"
+    "Appmain": {
+      "id": "1",
+      "name": "Appmain",
+      "currentVersion": "1.1.0",
+      "path": "Appmain.android-1.1.0.zip"
     },
-    "H5Screen":{
-      "id":"19",
-      "name":"H5Screen",
-      "currentVersion":"1.1.0",
-      "path":"assets://H5Screen.android-1.1.0.zip"
+    "H5Screen": {
+      "id": "19",
+      "name": "H5Screen",
+      "currentVersion": "1.1.0",
+      "path": "assets://H5Screen.android-1.1.0.zip"
     }
   }
 }
