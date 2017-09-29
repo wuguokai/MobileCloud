@@ -62,7 +62,7 @@ public class BundleManager {
     private static String bundleVersion = "" ;
     private static BundleManager bundleManager;
     private Gson gson = new Gson();
-    static String token = "Bearer 177dc3f7-f491-476e-afc6-c49498420b5b";
+    static String token = "";
 
     public synchronized static BundleManager getBundleManager() {
         if (bundleManager == null)
@@ -153,38 +153,39 @@ public class BundleManager {
 
     //下载成功后改本地配置文件
     public synchronized void updateBundleSuccess(Application application, Integer bundleId, String name, String version, File bundleFile){
-        AppPojo appPojo = getAppPojo(application);
-        AppUpdatePojo appUpdatePojo = getAppUpdatePojo(application);
-        Boolean appPojoChange = false;
-        Boolean appUpdatePojoChange =false;
-        if(name.equals(appPojo.getMainBundle().getName())){
-            appUpdatePojo.setMainBundleUpdate(null);
-            appPojo.getMainBundle().setId(bundleId);
-            appPojo.getMainBundle().setCurrentVersion(version);
-            appPojo.getMainBundle().setPath(bundleFile.getAbsolutePath());
-            appPojoChange = true;
-            appUpdatePojoChange = true;
-        }else {
-            if(appUpdatePojo.getBundlesUpdate().get(name)!=null){
-                appUpdatePojo.getBundlesUpdate().remove(name);
+        try {
+            AppPojo appPojo = getAppPojo(application);
+            AppUpdatePojo appUpdatePojo = getAppUpdatePojo(application);
+            Boolean appPojoChange = false;
+            Boolean appUpdatePojoChange = false;
+            if (name.equals(appPojo.getMainBundle().getName())) {
+                appUpdatePojo.setMainBundleUpdate(null);
+                appPojo.getMainBundle().setId(bundleId);
+                appPojo.getMainBundle().setCurrentVersion(version);
+                appPojo.getMainBundle().setPath(bundleFile.getAbsolutePath());
+                appPojoChange = true;
                 appUpdatePojoChange = true;
+            } else {
+                if (appUpdatePojo.getBundlesUpdate().get(name) != null) {
+                    appUpdatePojo.getBundlesUpdate().remove(name);
+                    appUpdatePojoChange = true;
+                }
+                if (appPojo.getBundles().get(name) != null) {
+                    BundlePojo bundlePojo = appPojo.getBundles().get(name);
+                    bundlePojo.setId(bundleId);
+                    bundlePojo.setCurrentVersion(version);
+                    bundlePojo.setPath(bundleFile.getAbsolutePath());
+                    appPojoChange = true;
+                } else {
+                    BundlePojo bundlePojo = new BundlePojo();
+                    bundlePojo.setId(bundleId);
+                    bundlePojo.setCurrentVersion(version);
+                    bundlePojo.setName(name);
+                    bundlePojo.setPath(bundleFile.getAbsolutePath());
+                    appPojo.getBundles().put(name, bundlePojo);
+                    appPojoChange = true;
+                }
             }
-            if(appPojo.getBundles().get(name)!=null){
-                BundlePojo bundlePojo = appPojo.getBundles().get(name);
-                bundlePojo.setId(bundleId);
-                bundlePojo.setCurrentVersion(version);
-                bundlePojo.setPath(bundleFile.getAbsolutePath());
-                appPojoChange = true;
-            }else{
-                BundlePojo bundlePojo = new BundlePojo();
-                bundlePojo.setId(bundleId);
-                bundlePojo.setCurrentVersion(version);
-                bundlePojo.setName(name);
-                bundlePojo.setPath(bundleFile.getAbsolutePath());
-                appPojo.getBundles().put(name,bundlePojo);
-                appPojoChange = true;
-            }
-        }
 
         bundleVersion = "";
         if(appPojoChange){
@@ -192,6 +193,9 @@ public class BundleManager {
         }
         if(appUpdatePojoChange){
             writeAppUpdatePojo(application,appUpdatePojo);
+        }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
