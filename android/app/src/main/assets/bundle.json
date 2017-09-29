@@ -22,6 +22,12 @@
       "name": "H5Screen",
       "currentVersion": "1.1.0",
       "path": "assets://H5Screen.android-1.1.0.zip"
+    },
+    "testForImageProp":{
+      "id": "10086",
+      "name": "testForImageProp",
+      "currentVersion": "1.1.0",
+      "path": "assets://testForImageProp.android-1.1.0.zip"
     }
   }
 }

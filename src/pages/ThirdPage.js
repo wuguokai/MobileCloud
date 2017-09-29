@@ -25,6 +25,13 @@ export default class ThirdPage extends Component {
                     <Text
                         style={styles.btText}>Go</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => navigate('StackNavigatorThird')}
+                    style={styles.button}>
+                    <Text
+                        style={styles.btText}>Go</Text>
+                </TouchableOpacity>
             </View>
 
         );

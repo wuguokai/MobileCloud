@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import com.mobilecloud.common.BundleManager;
 import com.mobilecloud.ext.ExtReactApplication;
 import com.mobilecloud.react.modules.NativePackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
 
 import java.util.Arrays;
@@ -58,7 +59,8 @@ public class MainApplication extends Application implements ExtReactApplication/
               @Override
               protected List<ReactPackage> getPackages() {
                 return Arrays.<ReactPackage>asList(
-                        new MainReactPackage(), new NativePackage()
+                        new MainReactPackage(),
+            new PickerPackage(), new NativePackage()
                 );
               }
               @Override
@@ -81,7 +83,7 @@ public class MainApplication extends Application implements ExtReactApplication/
                     @Override
                     protected List<ReactPackage> getPackages() {
                         return Arrays.<ReactPackage>asList(
-                            new MainReactPackage(), new NativePackage()
+                            new MainReactPackage(), new PickerPackage(), new NativePackage()
                     );
                     }
                     @Override
