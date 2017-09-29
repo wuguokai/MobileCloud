@@ -238,12 +238,18 @@ public class NativeManager extends ReactContextBaseJavaModule {
 
         String token = appPojo.getToken();
         writableMap.putString("token", token);
+        if (token != null){
+            BundleManager.getBundleManager().setToken(token);
+        }
 
         promise.resolve(writableMap);
     }
 
     @ReactMethod
     public void setToken(String token){
+        if (token != null && !token.startsWith("Bearer")) {
+            token = "Bearer " + token;
+        }
         BundleManager.getBundleManager().setToken(token);
         AppPojo appPojo = BundleManager.getBundleManager().getAppPojo(this.getCurrentActivity().getApplication());
         appPojo.setToken(token);

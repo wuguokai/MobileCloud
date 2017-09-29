@@ -39,20 +39,32 @@ export default class SecondPage extends Component {
             loaded: false,
         };
         this.fetchData = this.fetchData.bind(this);
+        this.refresh = this.refresh.bind(this);
     }
 
     componentDidMount() {
-        //this.fetchData();
-        NativeModules.NativeManager.getConfigData()
+        this.refresh();
+        setTimeout(() => {
+            this.setState({ swiperShow: true });
+        }, 0)
+    }
+
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
+
+    refresh(){
+         NativeModules.NativeManager.getConfigData()
             .then((back) => {
                 REQUEST_URL = back['serverUrl'] + "/getData/1";
                 console.log(REQUEST_URL);
                 iconPath = back['iconPath'];
-                token = back['tolen'];
                 console.log(iconPath);
+                token = back['token'];
+                console.log(token);
             })
             .then(() => {
-                this._fetch(REQUEST_URL, 3000)
+                this._fetch(REQUEST_URL, 10000)
                     .then((info) => {
                         console.log("yes");
                         this.loadRemoteData();
@@ -62,13 +74,6 @@ export default class SecondPage extends Component {
                         // throw new Error(err);
                     });
             });
-        setTimeout(() => {
-            this.setState({ swiperShow: true });
-        }, 0)
-    }
-
-    componentWillUnmount() {
-        this.timer && clearTimeout(this.timer);
     }
 
     // 超时版的fetch
@@ -140,10 +145,17 @@ export default class SecondPage extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData),
-                    loaded: true,
-                });
+                if(responseData.error == undefined){
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows(responseData),
+                        loaded: true,
+                    });
+                }else{
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows([]),
+                        loaded: true,
+                    });
+                }
                 console.log("*********");
                 console.log(responseData);
             });
@@ -221,8 +233,13 @@ export default class SecondPage extends Component {
                         {this.renderSwiper()}
                     </View>
 
-                    <View style={styles.listTitleBlock}>
+                    <View style={[styles.listTitleBlock,{flexDirection:'row'}]}>
                         <Text style={styles.listTitle}>可用模块</Text>
+                        <TouchableWithoutFeedback
+                        onPress={this.refresh}
+                    >
+                        <Text style={{padding:5,backgroundColor:'lightskyblue'}}>刷新</Text>
+                    </TouchableWithoutFeedback>
                     </View>
                     <ListView
                         style={{ backgroundColor: '#FFFFFF', borderTopWidth: 1, borderTopColor: '#EEEEEE' }}

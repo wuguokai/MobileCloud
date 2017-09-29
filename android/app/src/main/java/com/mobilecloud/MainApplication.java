@@ -35,6 +35,16 @@ public class MainApplication extends Application implements ExtReactApplication/
         if(activityHashMap.get(activityKey)==null){
           activityHashMap.put(activityKey,reactActivity);
         }
+        try {
+            BundleManager bundleManager = BundleManager.getBundleManager();
+            String token = bundleManager.getAppPojo(this).getToken();
+            if(token != null ){
+                bundleManager.setToken(token);
+            }
+        }catch (NullPointerException npe){
+            npe.printStackTrace();
+        }
+
 
         String bundleName = reactActivity.getIntent().getStringExtra("bundleName");
         ReactNativeHost reactNativeHost ;
