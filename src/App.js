@@ -57,8 +57,8 @@ export default MobileCloud = StackNavigator(
         headerMode: 'float',
     }
 );
-const prevGetStateForAction = ReactNavigation.router.getStateForAction;
-ReactNavigation.router.getStateForAction = (action, state) => {
+const prevGetStateForAction = MobileCloud.router.getStateForAction;
+MobileCloud.router.getStateForAction = (action, state) => {
     if (state && action.type === 'ReplaceCurrentScreen') {
         const routes = state.routes.slice(0, state.routes.length - 1);
         routes.push(action);
