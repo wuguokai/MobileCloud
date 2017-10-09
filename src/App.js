@@ -12,7 +12,8 @@ import { StackNavigator, NavigationActions } from 'react-navigation';
 
 import MainScreen from './components/MainScreen';
 import StackNavigatorSecond from './pages/demo/StackNavigatorSecond';
-import StackNavigatorThird from './pages/demo/StackNavigatorThird'
+import StackNavigatorThird from './pages/demo/StackNavigatorThird';
+import StackNavigatorFour from './pages/demo/StackNavigatorFour';
 
 export default MobileCloud = StackNavigator(
     {
@@ -27,6 +28,9 @@ export default MobileCloud = StackNavigator(
         },
         StackNavigatorThird: {
             screen: StackNavigatorThird,
+        },
+        StackNavigatorFour: {
+            screen: StackNavigatorFour,
         }
     },
     {

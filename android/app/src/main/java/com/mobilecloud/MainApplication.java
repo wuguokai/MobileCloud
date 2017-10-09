@@ -12,6 +12,7 @@ import com.mobilecloud.common.BundleManager;
 import com.mobilecloud.ext.ExtReactApplication;
 import com.mobilecloud.react.modules.NativePackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 
 
 import java.util.Arrays;
@@ -70,7 +71,9 @@ public class MainApplication extends Application implements ExtReactApplication/
               protected List<ReactPackage> getPackages() {
                 return Arrays.<ReactPackage>asList(
                         new MainReactPackage(),
-            new PickerPackage(), new NativePackage()
+                            new ReactNativeContacts(),
+                            new PickerPackage(),
+                            new NativePackage()
                 );
               }
               @Override
@@ -93,7 +96,10 @@ public class MainApplication extends Application implements ExtReactApplication/
                     @Override
                     protected List<ReactPackage> getPackages() {
                         return Arrays.<ReactPackage>asList(
-                            new MainReactPackage(), new PickerPackage(), new NativePackage()
+                            new MainReactPackage(),
+                                new PickerPackage(),
+                                new NativePackage(),
+                                new ReactNativeContacts()
                     );
                     }
                     @Override
