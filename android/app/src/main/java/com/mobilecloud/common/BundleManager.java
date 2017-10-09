@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.mobilecloud.ext.ExtReactApplication;
@@ -24,6 +25,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -78,7 +80,7 @@ public class BundleManager {
 
         File fileMkdir = new File(getDiskCacheDir(application)+"/icon");
         fileMkdir.mkdir();
-        File file = new File(fileMkdir, "icon.zip");
+        final File file = new File(fileMkdir, "icon.zip");
         if (file != null && file.length() > 0) {
             file.delete();
         }
@@ -106,6 +108,22 @@ public class BundleManager {
                 fileOutputStream.close();
             }
             unZipFiles(file, "");
+
+            //修改下载的模块图标全部为png格式
+            FileFilter fileFilter = new FileFilter() {
+                @Override
+                public boolean accept(File pathname) {
+                    String filename = pathname.getName();
+                   return filename.endsWith(".jpg");
+                }
+            };
+            File icon = new File(file.getParent());
+            File[] fileList = icon.listFiles(fileFilter);
+            for (File file1 : fileList){
+                File filename = new File(file1.getAbsolutePath().replace(".jpg", ".png"));
+                file1.renameTo(filename);
+            }
+
             return file.getAbsolutePath();
         }catch (Exception e){
             e.printStackTrace();
