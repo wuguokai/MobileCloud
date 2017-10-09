@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
+import Welcome from './components/Welcome';
 import MainScreen from './components/MainScreen';
 import StackNavigatorSecond from './pages/demo/StackNavigatorSecond';
 import StackNavigatorThird from './pages/demo/StackNavigatorThird';
@@ -17,6 +18,12 @@ import StackNavigatorFour from './pages/demo/StackNavigatorFour';
 
 export default MobileCloud = StackNavigator(
     {
+        Welcome: {
+            screen: Welcome,
+            navigationOptions: ({ navigation }) => ({
+                header: <View></View>,
+            }),
+        },
         MainScreen: {
             screen: MainScreen,
             navigationOptions: ({ navigation }) => ({
@@ -25,6 +32,9 @@ export default MobileCloud = StackNavigator(
         },
         StackNavigatorSecond: {
             screen: StackNavigatorSecond,
+            navigationOptions: ({ navigation }) => ({
+                header: <View></View>,
+            }),
         },
         StackNavigatorThird: {
             screen: StackNavigatorThird,
