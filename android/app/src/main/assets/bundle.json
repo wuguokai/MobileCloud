@@ -5,10 +5,10 @@
   "token": "",
   "url": "http://mobile-cloud.hapcloud.saas.hand-china.com/mobileCloud/v1/bundle",
   "mainBundle": {
-    "id": "6",
+    "id": "9",
     "name": "index",
-    "currentVersion": "1.1.0",
-    "path": "assets://index.android-1.1.0.zip"
+    "currentVersion": "1.0.0",
+    "path": "assets://index.android-1.0.0.zip"
   },
   "bundles": {}
 }
