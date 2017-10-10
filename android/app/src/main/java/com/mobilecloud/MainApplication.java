@@ -13,6 +13,7 @@ import com.mobilecloud.ext.ExtReactApplication;
 import com.mobilecloud.react.modules.NativePackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 
 
 import java.util.Arrays;
@@ -71,6 +72,7 @@ public class MainApplication extends Application implements ExtReactApplication/
               protected List<ReactPackage> getPackages() {
                 return Arrays.<ReactPackage>asList(
                         new MainReactPackage(),
+                            new RCTCameraPackage(),
                             new ReactNativeContacts(),
                             new PickerPackage(),
                             new NativePackage()

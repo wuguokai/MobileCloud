@@ -49,6 +49,7 @@
 		7FB434B46EC24617817A7F7A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F686A0B24884DCBAF382D27 /* Zocial.ttf */; };
 		3080A35D49084F6984B94759 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DADC2F1A18BE4C388F29C669 /* libimageCropPicker.a */; };
 		E519EDFA2923470E9D391E93 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E87E7A79F0A4772BD03B48C /* libRCTContacts.a */; };
+		44458DFEA40E4DFD97532365 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C410E8BDF9A147198F1C583C /* libRCTCamera.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -284,6 +285,8 @@
 		DADC2F1A18BE4C388F29C669 /* libimageCropPicker.a */ = {isa = PBXFileReference; name = "libimageCropPicker.a"; path = "libimageCropPicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		31DC0D722AB047F98418F1C8 /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; name = "RCTContacts.xcodeproj"; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		5E87E7A79F0A4772BD03B48C /* libRCTContacts.a */ = {isa = PBXFileReference; name = "libRCTContacts.a"; path = "libRCTContacts.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C6AAE4CA4AF644B5B3C18610 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; name = "RCTCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		C410E8BDF9A147198F1C583C /* libRCTCamera.a */ = {isa = PBXFileReference; name = "libRCTCamera.a"; path = "libRCTCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -312,6 +315,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				3080A35D49084F6984B94759 /* libimageCropPicker.a in Frameworks */,
 				E519EDFA2923470E9D391E93 /* libRCTContacts.a in Frameworks */,
+				44458DFEA40E4DFD97532365 /* libRCTCamera.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +484,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				069325303EA4488AA86C2019 /* imageCropPicker.xcodeproj */,
 				31DC0D722AB047F98418F1C8 /* RCTContacts.xcodeproj */,
+				C6AAE4CA4AF644B5B3C18610 /* RCTCamera.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1042,11 +1047,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-image-crop-picker\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-contacts\ios\RCTContacts",
+					"$(SRCROOT)\..\node_modules\react-native-camera\ios",
 				);
 			};
 			name = Debug;
@@ -1069,11 +1076,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-image-crop-picker\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-contacts\ios\RCTContacts",
+					"$(SRCROOT)\..\node_modules\react-native-camera\ios",
 				);
 			};
 			name = Release;
@@ -1097,6 +1106,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-image-crop-picker\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-contacts\ios\RCTContacts",
+					"$(SRCROOT)\..\node_modules\react-native-camera\ios",
 				);
 			};
 			name = Debug;
@@ -1119,6 +1129,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-image-crop-picker\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-contacts\ios\RCTContacts",
+					"$(SRCROOT)\..\node_modules\react-native-camera\ios",
 				);
 			};
 			name = Release;
@@ -1150,11 +1161,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-image-crop-picker\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-contacts\ios\RCTContacts",
+					"$(SRCROOT)\..\node_modules\react-native-camera\ios",
 				);
 			};
 			name = Debug;
@@ -1186,11 +1199,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-image-crop-picker\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-contacts\ios\RCTContacts",
+					"$(SRCROOT)\..\node_modules\react-native-camera\ios",
 				);
 			};
 			name = Release;
@@ -1217,6 +1232,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1241,6 +1257,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

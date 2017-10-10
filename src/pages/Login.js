@@ -14,7 +14,7 @@ const url = 'http://mobile-cloud.cloud.saas.hand-china.com';
 // const url = 'http://baidu.com';
 const { width, height } = Dimensions.get('window');
 
-export default class StackNavigatorSecond extends Component {
+export default class Login extends Component {
 
     //脚本注入
     injectJS = () => {

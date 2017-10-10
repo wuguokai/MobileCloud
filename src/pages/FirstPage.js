@@ -22,13 +22,21 @@ export default class ListIconExample extends Component {
         nav: React.PropTypes.object,
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            messageNotification: false,
+        };
+    }
+
     render() {
         const { navigate } = this.props.nav;
         return (
             <Container>
                 <Content style={{ backgroundColor: '#F1F1F1', }}>
                     <List style={{ backgroundColor: '#FFFFFF', borderTopWidth: 0.5, borderTopColor: '#D1D1D1' }}>
-                        <ListItem avatar style={{}}>
+                        <ListItem avatar last>
                             <Left>
                                 <Thumbnail source={{ uri: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2345970869,892410183&fm=173&s=8400FD17199351ED598CA8F503008063&w=218&h=146&img.JPEG' }} />
                             </Left>
@@ -44,13 +52,21 @@ export default class ListIconExample extends Component {
                         <Content style={{ flex: 1, backgroundColor: '#eeeeee', height: 20 }}></Content>
                         <ListItem icon first>
                             <Left><Icon name="plane" style={{ color: 'lightskyblue' }} /></Left>
-                            <Body><Text style={{ fontSize: 16 }}>订单信息</Text></Body>
-                            <Right><Switch value={false} /></Right>
+                            <Body><Text style={{ fontSize: 16 }}>消息通知</Text></Body>
+                            <Right><Switch
+                                value={this.state.messageNotification}
+                                onValueChange={(value) => {
+                                    this.setState({ messageNotification: value })
+                                }}
+                                onTintColor={'lightskyblue'}
+                                thumbTintColor={'#039BE5'}
+                            />
+                            </Right>
                         </ListItem>
                         <ListItem icon>
                             <Left><Icon name="wifi" style={{ color: '#fab614' }} /></Left>
-                            <Body><Text style={{ fontSize: 16 }}>开票信息</Text></Body>
-                            <Right><Text style={{ fontSize: 12 }}>正在开票中...</Text><Icon name="arrow-forward" /></Right>
+                            <Body><Text style={{ fontSize: 16 }}>个人信息修改</Text></Body>
+                            <Right><Icon name="arrow-forward" /></Right>
                         </ListItem>
                         <ListItem icon last>
                             <Left><Icon name="bluetooth" style={{ color: '#F28B8B' }} /></Left>
@@ -58,28 +74,28 @@ export default class ListIconExample extends Component {
                             <Right><Text style={{ fontSize: 12 }}>已绑定</Text><Icon name="arrow-forward" /></Right>
                         </ListItem>
 
-                        <Content style={{ flex: 1, backgroundColor: '#eeeeee', height: 20 }}></Content>
+                        {/*<Content style={{ flex: 1, backgroundColor: '#eeeeee', height: 20 }}></Content>
                         <ListItem icon first>
                             <Left><Icon name="plane" style={{ color: 'lightskyblue' }} /></Left>
-                            <Body><Text style={{ fontSize: 16 }}>在线客服</Text></Body>
+                            <Body><Text style={{ fontSize: 16 }}>我是占位的</Text></Body>
                             <Right><Icon name="arrow-forward" /></Right>
                         </ListItem>
                         <ListItem icon>
                             <Left><Icon name="wifi" style={{ color: '#fab614' }} /></Left>
-                            <Body><Text style={{ fontSize: 16 }}>帮助与反馈</Text></Body>
+                            <Body><Text style={{ fontSize: 16 }}>我是占位的</Text></Body>
                             <Right><Icon name="arrow-forward" /></Right>
                         </ListItem>
                         <ListItem icon last>
                             <Left><Icon name="bluetooth" style={{ color: '#F28B8B' }} /></Left>
-                            <Body><Text style={{ fontSize: 16 }}>关于</Text></Body>
+                            <Body><Text style={{ fontSize: 16 }}>我是占位的</Text></Body>
                             <Right><Icon name="arrow-forward" /></Right>
-                        </ListItem>
+                        </ListItem>*/}
 
                         <Content style={{ flex: 1, backgroundColor: '#eeeeee', height: 20 }}></Content>
                         <ListItem icon first last>
-                            <Left><Icon name="plane" /></Left>
-                            <Body><Text style={{ fontSize: 16 }}>个人设置</Text></Body>
-                            <Right><Icon name="arrow-forward" /></Right>
+                            <Left><Icon name="bluetooth" /></Left>
+                            <Body><Text style={{ fontSize: 16 }}>版本说明</Text></Body>
+                            <Right><Text style={{ fontSize: 12 }}>1.0.0-alpha.beta</Text><Icon name="arrow-forward" /></Right>
                         </ListItem>
                     </List>
                 </Content>

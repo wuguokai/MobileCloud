@@ -20,17 +20,17 @@ export default class ThirdPage extends Component {
             <View
                 style={styles.container}>
                 <TouchableOpacity
-                    onPress={() => navigate('StackNavigatorThird')}
+                    onPress={() => navigate('ScannerView')}
                     style={styles.button}>
                     <Text
-                        style={styles.btText}>Go</Text>
+                        style={styles.btText}>QRScanner</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={() => navigate('StackNavigatorFour')}
                     style={styles.button}>
                     <Text
-                        style={styles.btText}>Go</Text>
+                        style={styles.btText}>Contact</Text>
                 </TouchableOpacity>
             </View>
 

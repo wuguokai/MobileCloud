@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
-import Welcome from './components/Welcome';
+import Welcome from './pages/Welcome';
 import MainScreen from './components/MainScreen';
-import StackNavigatorSecond from './pages/demo/StackNavigatorSecond';
-import StackNavigatorThird from './pages/demo/StackNavigatorThird';
+import Login from './pages/Login';
 import StackNavigatorFour from './pages/demo/StackNavigatorFour';
+import ScannerView from './pages/QRScanner/ScannerView';
+import Open from './pages/QRScanner/Open';
 
 export default MobileCloud = StackNavigator(
     {
@@ -30,18 +31,22 @@ export default MobileCloud = StackNavigator(
                 header: <View></View>,
             }),
         },
-        StackNavigatorSecond: {
-            screen: StackNavigatorSecond,
+        Login: {
+            screen: Login,
             navigationOptions: ({ navigation }) => ({
                 header: <View></View>,
             }),
         },
-        StackNavigatorThird: {
-            screen: StackNavigatorThird,
-        },
         StackNavigatorFour: {
             screen: StackNavigatorFour,
-        }
+        },
+        ScannerView: {
+            screen: ScannerView,
+        },
+        Open: {
+            screen: Open,
+        },
+
     },
     {
         navigationOptions: ({ navigation }) => ({
@@ -94,10 +99,6 @@ MobileCloud.router.getStateForAction = (action, state) => {
         var i = findDateInArr(state.routes, 'routeName', action.routeName);
         if (i != -1) {
             var routes = state.routes.slice(0, i + 1);
-            console.log('routes:-----');
-            console.log(routes);
-            console.log('action:-----');
-            console.log(action);
         }
         return {
             ...state,

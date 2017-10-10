@@ -237,7 +237,7 @@ export default class SecondPage extends Component {
         }
         const { navigate } = this.props.nav;
         return (
-            <View style={{ backgroundColor: '#F1F1F1' }}>
+            <View style={{ backgroundColor: '#F1F1F1', height: height }}>
                 <ScrollView
                     refreshControl={
                         <RefreshControl

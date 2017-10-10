@@ -20,8 +20,8 @@ export default class Header extends Component {
   }
 
   render() {
-    var bgColor = this.props.selectedTab == 'second' ? '#0092DA' : '#F8F8F8';
-    var txt = this.props.selectedTab == 'second' ? 'Second' : 'First';
+    var bgColor = this.props.selectedTab == 'second' ? '#039BE5' : '#F8F8F8';
+    var txt = this.props.selectedTab == 'second' ? 'MobileCloud' : this.props.selectedTab == 'first' ? '个人信息' : '测试页';
     var Color = this.props.selectedTab == 'second' ? '#FFFFFF' : '#000000';
     return (
       <View style={[styles.container, { backgroundColor: bgColor }]}>

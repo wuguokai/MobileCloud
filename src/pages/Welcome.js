@@ -5,17 +5,17 @@ import { NativeModules } from 'react-native';
 import {
     Text,
     View,
+    Image,
+    Dimensions,
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+const { height, width } = Dimensions.get('window');
 export default class Welcome extends Component {
-
-
-
     componentDidMount() {
         setTimeout(() => {
             this.checkToken();
-        }, 5000)
+        }, 3000)//这里设定欢迎页时间，3s
     }
 
     checkToken() {
@@ -34,23 +34,22 @@ export default class Welcome extends Component {
                     });
                 } else {
                     this.props.navigation.dispatch({
-                        key: 'StackNavigatorSecond',
+                        key: 'Login',
                         type: 'ReplaceCurrentScreen',
-                        routeName: 'StackNavigatorSecond',
+                        routeName: 'Login',
                         params: this.props.navigation.state.params,
                     });
                 }
             });
     }
 
-    go() {
-        this.props.navigation.navigate('MainScreen');
-    }
-
     render() {
         return (
             <View>
-                <Text>Welcome</Text>
+                <Image
+                    style={{ width: width, height: height }}
+                    source={require('../images/welcome.jpg')}
+                />
             </View>
         );
     }
