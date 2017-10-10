@@ -51,7 +51,12 @@ export default class StackNavigatorSecond extends Component {
                     domStorageEnabled={false}
                     scalesPageToFit={false}
                     onMessage={(e) => {
-                        this.props.navigation.goBack();
+                        this.props.navigation.dispatch({
+                            key: 'MainScreen',
+                            type: 'ReplaceCurrentScreen',
+                            routeName: 'MainScreen',
+                            params: this.props.navigation.state.params,
+                        });
                         console.log(e.nativeEvent.data);
                         NativeModules.NativeManager.setToken(e.nativeEvent.data);
                     }}

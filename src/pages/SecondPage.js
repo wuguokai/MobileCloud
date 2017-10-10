@@ -37,6 +37,7 @@ export default class SecondPage extends Component {
             }),
             swiperShow: false,
             loaded: false,
+            isRefreshing: false,
         };
         this.fetchData = this.fetchData.bind(this);
         this.refresh = this.refresh.bind(this);
@@ -53,8 +54,11 @@ export default class SecondPage extends Component {
         this.timer && clearTimeout(this.timer);
     }
 
-    refresh(){
-         NativeModules.NativeManager.getConfigData()
+    refresh() {
+        this.setState({
+            isRefreshing: true
+        });
+        NativeModules.NativeManager.getConfigData()
             .then((back) => {
                 REQUEST_URL = back['serverUrl'] + "/getData/1";
                 console.log(REQUEST_URL);
@@ -68,10 +72,16 @@ export default class SecondPage extends Component {
                     .then((info) => {
                         console.log("yes");
                         this.loadRemoteData();
+                        this.setState({
+                            isRefreshing: false
+                        });
                     }).catch((err) => {
                         console.log("error");
                         this.loadLoaclData();
                         // throw new Error(err);
+                        this.setState({
+                            isRefreshing: false
+                        });
                     });
             });
     }
@@ -145,12 +155,12 @@ export default class SecondPage extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                if(responseData.error == undefined){
+                if (responseData.error == undefined) {
                     this.setState({
                         dataSource: this.state.dataSource.cloneWithRows(responseData),
                         loaded: true,
                     });
-                }else{
+                } else {
                     this.setState({
                         dataSource: this.state.dataSource.cloneWithRows([]),
                         loaded: true,
@@ -228,18 +238,25 @@ export default class SecondPage extends Component {
         const { navigate } = this.props.nav;
         return (
             <View style={{ backgroundColor: '#F1F1F1' }}>
-                <ScrollView>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={this.refresh.bind(this)}
+                            tintColor="grey"
+                            title="Loading..."
+                            titleColor="grey"
+                            colors={['#eeeeee', '#dddddd', '#ffffff']}
+                            progressBackgroundColor="grey"
+                        />
+                    }
+                >
                     <View style={{ height: 150, backgroundColor: '#FFFFFF' }}>
                         {this.renderSwiper()}
                     </View>
 
-                    <View style={[styles.listTitleBlock,{flexDirection:'row'}]}>
+                    <View style={[styles.listTitleBlock, { flexDirection: 'row' }]}>
                         <Text style={styles.listTitle}>可用模块</Text>
-                        <TouchableWithoutFeedback
-                        onPress={this.refresh}
-                    >
-                        <Text style={{padding:5,backgroundColor:'lightskyblue'}}>刷新</Text>
-                    </TouchableWithoutFeedback>
                     </View>
                     <ListView
                         style={{ backgroundColor: '#FFFFFF', borderTopWidth: 1, borderTopColor: '#EEEEEE' }}
