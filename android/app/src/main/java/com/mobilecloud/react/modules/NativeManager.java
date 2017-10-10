@@ -25,6 +25,7 @@ import com.facebook.react.module.annotations.ReactModule;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by WUGUOKAI on 2017/8/28.
@@ -118,14 +119,17 @@ public class NativeManager extends ReactContextBaseJavaModule {
             @Override
             public void success(Object object) {
                 final File file = (File) object;
-                Log.w("NativeManager", String.format("%s", file.getAbsolutePath()));
                 //BundleManager.getBundleManager().loadBundle(getCurrentActivity(),file);
                 if(toast == null){
                     toast = Toast.makeText(getReactApplicationContext(), String.format("download success"), Toast.LENGTH_SHORT);
-                }else{
+                }/*else{
                     toast.setText(String.format("download success"));
+                }*/
+                if (file != null){
+                    callback.invoke("success", file.getAbsolutePath());
+                }else {
+                    callback.invoke("failed", "downLoad failed!");
                 }
-                callback.invoke("success", file.getAbsolutePath());
             }
 
             @Override

@@ -4,7 +4,7 @@ import { AppRegistry, Text } from 'react-native';
 export default class Module extends Component {
   render() {
     return (
-      <Text>Appmain！</Text>
+      <Text>更新之后的Appmain！</Text>
     );
   }
 }
