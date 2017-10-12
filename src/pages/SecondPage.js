@@ -216,13 +216,13 @@ export default class SecondPage extends Component {
                     index={0}
                     autoplayTimeout={5}>
                     <View style={styles.slide} title={<Text numberOfLines={1}>Title for 1</Text>}>
-                        <Image resizeMode='stretch' style={styles.image} source={{ uri: 'http://img1.imgtn.bdimg.com/it/u=1781849339,3078928482&fm=200&gp=0.jpg' }} />
+                        <Image resizeMode='stretch' style={styles.image} source={{ uri: 'https://pan.baidu.com/static/images/16new/bg1.jpg' }} />
                     </View>
                     <View style={styles.slide} title={<Text numberOfLines={1}>Title for 2</Text>}>
-                        <Image resizeMode='stretch' style={styles.image} source={{ uri: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=175680902,1110893123&fm=200&gp=0.jpg' }} />
+                        <Image resizeMode='stretch' style={styles.image} source={{ uri: 'https://pan.baidu.com/static/images/16new/bg2.jpg' }} />
                     </View>
                     <View style={styles.slide} title={<Text numberOfLines={1}>Title for 3</Text>}>
-                        <Image resizeMode='stretch' style={styles.image} source={{ uri: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1634349987,2562229076&fm=27&gp=0.jpg' }} />
+                        <Image resizeMode='stretch' style={styles.image} source={{ uri: 'https://pan.baidu.com/static/images/16new/bg3.jpg' }} />
                     </View>
                 </Swiper>
             );
@@ -368,12 +368,12 @@ var styles = StyleSheet.create({
     },
     name: {
         textAlign: 'center',
-        fontSize: 12,
-        marginTop: 3,
+        fontSize: 10,
+        marginTop: 10,
     },
     thumbnail: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         borderRadius: 5,
     },
     listView: {

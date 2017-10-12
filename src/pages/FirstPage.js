@@ -15,6 +15,9 @@ import {
     Switch,
     Thumbnail
 } from 'native-base';
+import {
+    TouchableHighlight,
+} from 'react-native';
 
 export default class ListIconExample extends Component {
 
@@ -45,7 +48,11 @@ export default class ListIconExample extends Component {
                                 <Text note>Doing what you like will always keep you happy . .</Text>
                             </Body>
                             <Right style={{ justifyContent: 'center', }}>
-                                <Icon name="arrow-forward" />
+                                <TouchableHighlight
+                                    onPress={() => navigate('Head')}
+                                >
+                                    <Icon name="arrow-forward" />
+                                </TouchableHighlight>
                             </Right>
                         </ListItem>
 

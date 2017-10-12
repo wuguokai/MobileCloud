@@ -33,7 +33,7 @@ export default class Login extends Component {
                               clearInterval(t);
                               window.postMessage(data);
                             }
-                          }, 2000);`;
+                          }, 100);`;
 
         if (this.webview) {
             this.webview.injectJavaScript(script);
